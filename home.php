@@ -19,6 +19,7 @@ $wbc_high = 12;
 $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
+$resp = 20;
 
 //create temporary table to store patients that trip temp threshold
 mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS temp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
@@ -70,12 +71,22 @@ while($row = mysql_fetch_array($patientLactate)){
 	mysql_query("INSERT INTO lactate VALUES ('".$patientID."', '".$time."')");
 }
 
+//create temporary table to store patients that trip lactate threshold
+mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS resp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+$query = "SELECT DISTINCT id, time FROM Presby WHERE resp_rate > '".$resp."'";
+$patientResp = mysql_query($query);
+while($row = mysql_fetch_array($patientResp)){
+	$patientID = $row['id'];
+	$time = $row['time'];
+	mysql_query("INSERT INTO resp VALUES ('".$patientID."', '".$time."')");
+}
+
 //create temporary table to store patients and counts of threshold trips
 mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS thresholds (id BIGINT NOT NULL, count INT NOT NULL) ENGINE=MEMORY");
 //$query = "SELECT id, COUNT(id) AS count FROM temp t, hr h, wbc w, sbc s, lactate l WHERE id IN (SELECT DISTINCT id FROM t) OR id IN (SELECT DISTINCT id FROM h) OR id IN (SELECT DISTINCT id FROM w) OR id IN (SELECT DISTINCT id FROM s) OR id IN (SELECT DISTINCT id FROM l) GROUP BY id";
 //$query = "SELECT id, COUNT(id) AS count FROM temp t WHERE id=t.id GROUP BY id";
 //$query = "SELECT id, COUNT(id) FROM (SELECT DISTINCT id FROM temp) t, (SELECT DISTINCT id FROM hr) h, (SELECT DISTINCT id FROM wbc) w, (SELECT DISTINCT id FROM sbc) s, (SELECT DISTINCT id FROM lactate) l GROUP BY id";
-$query = "SELECT id, count(id) AS count FROM (SELECT DISTINCT id FROM temp UNION ALL SELECT DISTINCT id FROM hr UNION ALL SELECT DISTINCT id FROM wbc UNION ALL SELECT DISTINCT id FROM sbc UNION ALL SELECT DISTINCT id FROM lactate) t GROUP BY id";
+$query = "SELECT id, count(id) AS count FROM (SELECT DISTINCT id FROM temp UNION ALL SELECT DISTINCT id FROM hr UNION ALL SELECT DISTINCT id FROM wbc UNION ALL SELECT DISTINCT id FROM sbc UNION ALL SELECT DISTINCT id FROM lactate UNION ALL SELECT DISTINCT id FROM resp) t GROUP BY id";
 $patientCounts = mysql_query($query);
 while($row = mysql_fetch_array($patientCounts)){
 	$patientID = $row['id'];
@@ -91,15 +102,19 @@ if (mysql_num_rows($result) == 0) {
 } else {
 	echo "<table>";
 	echo "<tr><td><b>Thresholds</b></td></tr>";
-	echo "<tr><td>Heart Rate: ".$hr."</td><td>Temp: ".$tempC."</td></tr>";
+	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
 	echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
 	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
+	echo "<tr><td>Resp Rate: ".$resp."</td><td></td></tr>";
 	echo "</table><br>";
 	echo "Showing patients with ".$limit." or more threshold trips<br>";
 	echo "<table>";
+	$count = 0;
 	while ($row = mysql_fetch_array($result)){
-		echo "<td><td>".$row['id']."</td></tr>";
+		echo "<tr><td>".$row['id']."</td></tr>";
+		$count = $count + 1;
 	}
+	echo "<tr><td>Total Patients: ".$count."</td></tr>";
 	echo "</table>";
 	
 }
