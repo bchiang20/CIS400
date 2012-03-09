@@ -20,82 +20,95 @@ $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
 $resp = 20;
-
+$unix_time = 1320037200;
+$current_time = new DateTime();
+$current_time->setTimestamp($unix_time);
+echo $current_time->format('Y-m-d H:i:s') . "\n";
+/*
 //create temporary table to store patients that trip temp threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS temp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS temp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE temp > '".$tempC."'";
 $patientTemps = mysql_query($query);
 while($row = mysql_fetch_array($patientTemps)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO temp VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO temp VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients that trip heart rate threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS hr (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS hr (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE heart_rate > '".$hr."'";
 $patientHR = mysql_query($query);
 while($row = mysql_fetch_array($patientHR)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO hr VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO hr VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients that trip wbc threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS wbc (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS wbc (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE wbc > '".$wbc_high."' OR (wbc < '".$wbc_low."' AND wbc <> 0)";
 $patientWBC = mysql_query($query);
 while($row = mysql_fetch_array($patientWBC)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO wbc VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO wbc VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients that trip heart rate threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS sbc (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS sbc (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE sys_bp < '".$sys_bp."' AND sys_bp <> 0";
 $patientSBC = mysql_query($query);
 while($row = mysql_fetch_array($patientSBC)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO sbc VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO sbc VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients that trip lactate threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS lactate (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS lactate (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE lactate > '".$lactate."'";
 $patientLactate = mysql_query($query);
 while($row = mysql_fetch_array($patientLactate)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO lactate VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO lactate VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients that trip lactate threshold
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS resp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL) ENGINE=MEMORY");
+mysql_query("CREATE TABLE IF NOT EXISTS resp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
 $query = "SELECT DISTINCT id, time FROM Presby WHERE resp_rate > '".$resp."'";
 $patientResp = mysql_query($query);
 while($row = mysql_fetch_array($patientResp)){
 	$patientID = $row['id'];
 	$time = $row['time'];
-	mysql_query("INSERT INTO resp VALUES ('".$patientID."', '".$time."')");
+	//mysql_query("INSERT IGNORE INTO resp VALUES ('".$patientID."', '".$time."')");
 }
 
 //create temporary table to store patients and counts of threshold trips
-mysql_query("CREATE TEMPORARY TABLE IF NOT EXISTS thresholds (id BIGINT NOT NULL, count INT NOT NULL) ENGINE=MEMORY");
+*/
+mysql_query("DROP TABLE thresholds");
+mysql_query("CREATE TABLE IF NOT EXISTS thresholds (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) ENGINE=MEMORY");
 //$query = "SELECT id, COUNT(id) AS count FROM temp t, hr h, wbc w, sbc s, lactate l WHERE id IN (SELECT DISTINCT id FROM t) OR id IN (SELECT DISTINCT id FROM h) OR id IN (SELECT DISTINCT id FROM w) OR id IN (SELECT DISTINCT id FROM s) OR id IN (SELECT DISTINCT id FROM l) GROUP BY id";
 //$query = "SELECT id, COUNT(id) AS count FROM temp t WHERE id=t.id GROUP BY id";
 //$query = "SELECT id, COUNT(id) FROM (SELECT DISTINCT id FROM temp) t, (SELECT DISTINCT id FROM hr) h, (SELECT DISTINCT id FROM wbc) w, (SELECT DISTINCT id FROM sbc) s, (SELECT DISTINCT id FROM lactate) l GROUP BY id";
-$query = "SELECT id, count(id) AS count FROM (SELECT DISTINCT id FROM temp UNION ALL SELECT DISTINCT id FROM hr UNION ALL SELECT DISTINCT id FROM wbc UNION ALL SELECT DISTINCT id FROM sbc UNION ALL SELECT DISTINCT id FROM lactate UNION ALL SELECT DISTINCT id FROM resp) t GROUP BY id";
+$mysqldate = date('Y-m-d H:i:s',$unix_time);
+
+$day_length = 240000;
+$num_days = 4;
+$time_diff = $day_length * $num_days;
+echo $mysqldate.", ".$time_diff;
+$query = "SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'sbc' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff.") t GROUP BY id";
 $patientCounts = mysql_query($query);
 while($row = mysql_fetch_array($patientCounts)){
 	$patientID = $row['id'];
 	$count = $row['count'];
-	mysql_query("INSERT INTO thresholds VALUES ('".$patientID."', '".$count."')");
+	$trig = $row['trig'];
+	mysql_query("INSERT IGNORE INTO thresholds VALUES ('".$patientID."', '".$count."', '".$trig."')");
 }
 
 $limit = 3;
-$result = mysql_query("SELECT DISTINCT id FROM thresholds WHERE count >= '".$limit."'");
+$result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE count >= '".$limit."'");
 
 if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
@@ -107,11 +120,11 @@ if (mysql_num_rows($result) == 0) {
 	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
 	echo "<tr><td>Resp Rate: ".$resp."</td><td></td></tr>";
 	echo "</table><br>";
-	echo "Showing patients with ".$limit." or more threshold trips<br>";
+	echo "Showing patients with ".$limit." or more threshold trips within ".$num_days." days of ".$mysqldate."<br>";
 	echo "<table>";
 	$count = 0;
 	while ($row = mysql_fetch_array($result)){
-		echo "<tr><td>".$row['id']."</td></tr>";
+		echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
 		$count = $count + 1;
 	}
 	echo "<tr><td>Total Patients: ".$count."</td></tr>";
@@ -119,11 +132,12 @@ if (mysql_num_rows($result) == 0) {
 	
 }
 
-mysql_query("DROP TABLE temp");
+/*mysql_query("DROP TABLE temp");
 mysql_query("DROP TABLE hr");
 mysql_query("DROP TABLE wbc");
 mysql_query("DROP TABLE sbc");
+mysql_query("DROP TABLE resp");
 mysql_query("DROP TABLE lactate");
-mysql_query("DROP TABLE thresholds");
+mysql_query("DROP TABLE thresholds");*/
 mysql_close($link);
 ?>
