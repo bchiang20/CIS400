@@ -1,0 +1,92 @@
+<html>
+	<head>
+	    <script type="text/javascript">
+			function formsubmit() {
+				var hr = document.getElementById("heart_rate").value;
+				var temp = document.getElementById("temp").value;
+				var wbc_high = document.getElementById("wbc_high").value;
+				var wbc_low = document.getElementById("wbc_low").value;
+				var sys_bp = document.getElementById("sys_bp").value;
+				var lactate = document.getElementById("lactate").value;
+				var resp = document.getElementById("resp").value;
+				
+				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0) {
+					alert("Please fill in all thresholds");
+					return;
+				}
+				
+				document.getElementById("message").innerHTML = "Updating databases...";
+				xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if(xmlhttp.readyState == 4) {
+ 						//document.getElementById("user").innerHTML = xmlhttp.responseText;
+ 						var response = xmlhttp.responseText;
+ 						//alert(response.trim().substring(0,1));
+ 						if(response.trim().substring(0,1) == "1"){
+ 							alert("Update successful");
+ 							load('home.php');
+ 						}
+ 						else{
+ 							alert("Not successful. Please try again");
+ 						}
+					}
+				}
+				
+				var query = "hr=" + hr + "&temp=" + temp + "&wbc_high=" + wbc_high + "&wbc_low=" + wbc_low + 
+				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp;    
+				xmlhttp.open("GET", "editThresholds.php?" + query, true);
+				xmlhttp.send(null);
+			}
+			
+			function load(url) {
+				location.href = url;
+			}
+			
+		</script>
+	</head>
+	
+	<title>Edit Thresholds</title>
+	<body>
+		<div id="edit_threshold" >
+			<form name="thresholds">
+				<table>
+					<tr>
+						<td><label> Heart Rate: </label></td>
+						<td><input type="text" id="heart_rate"/></td>
+					</tr>
+					<tr>
+						<td><label> Temperature: </label></td>
+						<td><input type="text" id="temp"/></td>
+					</tr>
+					<tr>
+						<td><label> WBC - High: </label></td>
+						<td><input type="text" id="wbc_high"/></td>
+					</tr>
+					<tr>
+						<td><label> WBC - Low: </label></td>
+						<td><input type="text" id="wbc_low"/></td>
+					</tr>
+					<tr>
+						<td><label> Systolic Blood Pressure: </label></td>
+						<td><input type="text" id="sys_bp"/></td>
+					</tr>
+					<tr>
+						<td><label> Lactate: </label></td>
+						<td><input type="text" id="lactate"/></td>
+					</tr>
+					<tr>
+						<td><label> Respiratory Rate: </label></td>
+						<td><input type="text" id="resp"/></td>
+					</tr>
+					
+					<tr>
+						<td><input type="button" onclick="formsubmit()" value="Update Thresholds" /></td>
+						<td><input type="button" onclick="load('home.php')" value="Cancel" /></td>
+					</tr>
+					<tr><td><div id="message"></div></td></tr>
+				</table>
+			</form>
+		</div>
+	</body>
+		
+</html>
