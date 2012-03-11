@@ -11,19 +11,48 @@ if (!$link) {
 
 mysql_select_db($db_name, $link);
 
+//Pull thresholds from table
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'heart_rate'");
+$row = mysql_fetch_array($thresholds);
+$hr = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'temp'");
+$row = mysql_fetch_array($thresholds);
+$tempC = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'wbc_high'");
+$row = mysql_fetch_array($thresholds);
+$wbc_high = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'wbc_low'");
+$row = mysql_fetch_array($thresholds);
+$wbc_low = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'sys_bp'");
+$row = mysql_fetch_array($thresholds);
+$sys_bp = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'lactate'");
+$row = mysql_fetch_array($thresholds);
+$lactate = $row['value'];
+
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'resp'");
+$row = mysql_fetch_array($thresholds);
+$resp = $row['value'];
+
 //Thresholds from SCC
 
-$tempC = 38.3;
+/*$tempC = 38.3;
 $hr = 90;
 $wbc_high = 12;
 $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
-$resp = 20;
+$resp = 20;*/
 $unix_time = 1320037200;
 $current_time = new DateTime();
 $current_time->setTimestamp($unix_time);
-echo $current_time->format('Y-m-d H:i:s') . "\n";
+//echo $current_time->format('Y-m-d H:i:s') . "\n";
 /*
 //create temporary table to store patients that trip temp threshold
 mysql_query("CREATE TABLE IF NOT EXISTS temp (id BIGINT NOT NULL, time TIMESTAMP NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) ENGINE=MEMORY");
@@ -95,9 +124,9 @@ mysql_query("CREATE TABLE IF NOT EXISTS thresholds (id BIGINT NOT NULL, count IN
 $mysqldate = date('Y-m-d H:i:s',$unix_time);
 
 $day_length = 240000;
-$num_days = 4;
+$num_days = 5;
 $time_diff = $day_length * $num_days;
-echo $mysqldate.", ".$time_diff;
+//echo $mysqldate.", ".$time_diff;
 $query = "SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'sbc' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff.") t GROUP BY id";
 $patientCounts = mysql_query($query);
 while($row = mysql_fetch_array($patientCounts)){
@@ -114,7 +143,7 @@ if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
 } else {
 	echo "<table>";
-	echo "<tr><td><b>Thresholds</b></td></tr>";
+	echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.html\">Edit</a>)</td></tr>";
 	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
 	echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
 	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
