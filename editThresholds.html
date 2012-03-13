@@ -9,8 +9,9 @@
 				var sys_bp = document.getElementById("sys_bp").value;
 				var lactate = document.getElementById("lactate").value;
 				var resp = document.getElementById("resp").value;
+				var limit = document.getElementById("limit").value;
 				
-				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0) {
+				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0 || limit.length == 0) {
 					alert("Please fill in all thresholds");
 					return;
 				}
@@ -21,7 +22,7 @@
 					if(xmlhttp.readyState == 4) {
  						//document.getElementById("user").innerHTML = xmlhttp.responseText;
  						var response = xmlhttp.responseText;
- 						//alert(response.trim().substring(0,1));
+ 						//alert(response);
  						if(response.trim().substring(0,1) == "1"){
  							alert("Update successful");
  							load('home.php');
@@ -33,7 +34,7 @@
 				}
 				
 				var query = "hr=" + hr + "&temp=" + temp + "&wbc_high=" + wbc_high + "&wbc_low=" + wbc_low + 
-				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp;    
+				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp + "&limit=" + limit;    
 				xmlhttp.open("GET", "editThresholds.php?" + query, true);
 				xmlhttp.send(null);
 			}
@@ -78,7 +79,10 @@
 						<td><label> Respiratory Rate: </label></td>
 						<td><input type="text" id="resp"/></td>
 					</tr>
-					
+					<tr>
+						<td><label> Number of Thresholds: </label></td>
+						<td><input type="text" id="limit"/></td>
+					</tr>
 					<tr>
 						<td><input type="button" onclick="formsubmit()" value="Update Thresholds" /></td>
 						<td><input type="button" onclick="load('home.php')" value="Cancel" /></td>

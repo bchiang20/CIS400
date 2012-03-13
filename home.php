@@ -136,7 +136,9 @@ while($row = mysql_fetch_array($patientCounts)){
 	mysql_query("INSERT IGNORE INTO thresholds VALUES ('".$patientID."', '".$count."', '".$trig."')");
 }
 
-$limit = 3;
+$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'limit'");
+$row = mysql_fetch_array($thresholds);
+$limit = $row['value'];
 $result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE count >= '".$limit."'");
 
 if (mysql_num_rows($result) == 0) {
@@ -147,7 +149,8 @@ if (mysql_num_rows($result) == 0) {
 	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
 	echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
 	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
-	echo "<tr><td>Resp Rate: ".$resp."</td><td></td></tr>";
+	echo "<tr><td>Resp Rate: ".$resp."</td><td>Threshold Limit: ".$limit."</td></tr>";
+	echo "<tr><td>Num Days: ".$num_days."</td><td>Reference Date: ".$mysqldate."</td></tr>";
 	echo "</table><br>";
 	echo "Showing patients with ".$limit." or more threshold trips within ".$num_days." days of ".$mysqldate."<br>";
 	echo "<table>";
