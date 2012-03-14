@@ -27,6 +27,54 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+ 
+ 	<!-- Script -->
+ 	 <script type="text/javascript">
+			function formsubmit() {
+				var hr = document.getElementById("heart_rate").value;
+				var temp = document.getElementById("temp").value;
+				var wbc_high = document.getElementById("wbc_high").value;
+				var wbc_low = document.getElementById("wbc_low").value;
+				var sys_bp = document.getElementById("sys_bp").value;
+				var lactate = document.getElementById("lactate").value;
+				var resp = document.getElementById("resp").value;
+				var limit = document.getElementById("limit").value;
+				
+				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0 || limit.length == 0) {
+					alert("Please fill in all thresholds");
+					return;
+				}
+				
+				document.getElementById("message").innerHTML = "Updating databases...";
+				xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if(xmlhttp.readyState == 4) {
+ 						//document.getElementById("user").innerHTML = xmlhttp.responseText;
+ 						var response = xmlhttp.responseText;
+ 						//alert(response);
+ 						if(response.trim().substring(0,1) == "1"){
+ 							alert("Update successful");
+ 							load('home.php');
+ 						}
+ 						else{
+ 							alert("Not successful. Please try again");
+ 						}
+					}
+				}
+				
+				var query = "hr=" + hr + "&temp=" + temp + "&wbc_high=" + wbc_high + "&wbc_low=" + wbc_low + 
+				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp + "&limit=" + limit;    
+				xmlhttp.open("GET", "editThresholds.php?" + query, true);
+				xmlhttp.send(null);
+			}
+			
+			function load(url) {
+				location.href = url;
+			}
+			
+		</script>
+ 
+ 
   </head>
 
   <body>
@@ -68,7 +116,7 @@
               <li><a href="#">Link</a></li>
               
               <br><p><a class="btn btn-primary btn-large" href="#">Search</a>   
-              	<a class="btn btn-primary btn-large" href="#">Clear</a>
+              	<a class="btn btn-primary btn-large" href="#" onclick="load('search.html')">Clear</a>
               	</p><br>
 				
             </ul>

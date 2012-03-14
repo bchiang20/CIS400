@@ -4,41 +4,13 @@ $db_password = "sepsis";
 $db_host = "fling.seas.upenn.edu";
 $db_name = "brchiang";
 
+//OPEN CONNETION
 $link = mysql_connect($db_host, $db_username, $db_password);
 if (!$link) {
 	die('Could not connect: ' . mysql_error());
 }
 
 mysql_select_db($db_name, $link);
-
-//Pull thresholds from table
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'heart_rate'");
-$row = mysql_fetch_array($thresholds);
-$hr = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'temp'");
-$row = mysql_fetch_array($thresholds);
-$tempC = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'wbc_high'");
-$row = mysql_fetch_array($thresholds);
-$wbc_high = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'wbc_low'");
-$row = mysql_fetch_array($thresholds);
-$wbc_low = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'sys_bp'");
-$row = mysql_fetch_array($thresholds);
-$sys_bp = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'lactate'");
-$row = mysql_fetch_array($thresholds);
-$lactate = $row['value'];
-
-$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'resp'");
-$row = mysql_fetch_array($thresholds);
-$resp = $row['value'];
 
 $unix_time = 1320037200;
 $current_time = new DateTime();
@@ -62,30 +34,25 @@ while($row = mysql_fetch_array($patientCounts)){
 	mysql_query("INSERT IGNORE INTO thresholds VALUES ('".$patientID."', '".$count."', '".$trig."')");
 }
 
+//Grab the search values
 $limit = 3;
-$result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE count >= '".$limit."'");
+$pid = '9000862378300270'; //grab value from the search box
+$result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE id = '".$pid."'");
 
 if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
 } else {
-	echo "<table>";
-	echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.html\">Edit</a>)</td></tr>";
-	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
-	echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
-	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
-	echo "<tr><td>Resp Rate: ".$resp."</td><td></td></tr>";
-	echo "</table><br>";
-	echo "Showing patients with ".$limit." or more threshold trips within ".$num_days." days of ".$mysqldate."<br>";
 	echo "<table>";
 	$count = 0;
 	while ($row = mysql_fetch_array($result)){
 		echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
 		$count = $count + 1;
 	}
-	echo "<tr><td>Total Patients: ".$count."</td></tr>";
+	echo "<tr><td>Total Results: ".$count."</td></tr>";
 	echo "</table>";
 	
 }
 
+//CLOSE CONNECTION
 mysql_close($link);
 ?>
