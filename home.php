@@ -49,7 +49,7 @@ $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
 $resp = 20;*/
-$unix_time = 1320037200;
+$unix_time = 1319061600;
 $current_time = new DateTime();
 $current_time->setTimestamp($unix_time);
 //echo $current_time->format('Y-m-d H:i:s') . "\n";
@@ -124,8 +124,9 @@ while($row = mysql_fetch_array($patientResp)){
 $mysqldate = date('Y-m-d H:i:s',$unix_time);
 
 $day_length = 240000;
-$num_days = 5;
+$num_days = 1;
 $time_diff = $day_length * $num_days;
+$pastdate = date('Y-m-d H:i:s',$unix_time - ($num_days*86400));
 //echo $mysqldate.", ".$time_diff;
 //$query = "SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'sbc' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff.") t GROUP BY id";
 /*$patientCounts = mysql_query($query);
@@ -136,13 +137,18 @@ while($row = mysql_fetch_array($patientCounts)){
 	mysql_query("INSERT IGNORE INTO thresholds VALUES ('".$patientID."', '".$count."', '".$trig."')");
 }*/
 
-mysql_query("DROP TABLE thresholds");
-mysql_query("CREATE TABLE thresholds (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'sbc' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff.") t GROUP BY id");
+mysql_query("DROP TABLE IF EXISTS thresholds");
+mysql_query("CREATE TABLE thresholds (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'sbp' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0) t GROUP BY id");
 
 $thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'limit'");
 $row = mysql_fetch_array($thresholds);
 $limit = $row['value'];
 $result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE count >= '".$limit."' ORDER BY count DESC");
+
+mysql_query("DROP TABLE IF EXISTS thresholds_past");
+mysql_query("CREATE TABLE thresholds_past (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'sbp' AS flag FROM sbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0) t GROUP BY id");
+
+$result_past = mysql_query("SELECT DISTINCT id, trig FROM thresholds_past WHERE count >= '".$limit."' ORDER BY count DESC");
 
 if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
@@ -155,7 +161,9 @@ if (mysql_num_rows($result) == 0) {
 	echo "<tr><td>Resp Rate: ".$resp."</td><td>Threshold Limit: ".$limit."</td></tr>";
 	echo "<tr><td>Num Days: ".$num_days."</td><td>Reference Date: ".$mysqldate."</td></tr>";
 	echo "</table><br>";
-	echo "Showing patients with ".$limit." or more threshold trips within ".$num_days." days of ".$mysqldate."<br>";
+	//echo "Showing patients with ".$limit." or more threshold trips<br>";
+	echo "<table><tr><td width=300>";
+	echo "<b>Active Patients</b>";
 	echo "<table>";
 	$count = 0;
 	while ($row = mysql_fetch_array($result)){
@@ -163,7 +171,17 @@ if (mysql_num_rows($result) == 0) {
 		$count = $count + 1;
 	}
 	echo "<tr><td>Total Patients: ".$count."</td></tr>";
-	echo "</table>";
+	echo "</table></td>";
+	
+	echo "<td valign=\"top\"><b>Past Patients</b>";
+	echo "<table>";
+	$count = 0;
+	while ($row = mysql_fetch_array($result_past)){
+		echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
+		$count = $count + 1;
+	}
+	echo "<tr><td>Total Patients: ".$count."</td></tr>";
+	echo "</table></td></tr></table>";
 	
 }
 
