@@ -154,7 +154,7 @@ if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
 } else {
 	echo "<table>";
-	echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.html\">Edit</a>)</td></tr>";
+	echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.php\">Edit</a>)</td></tr>";
 	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
 	echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
 	echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
