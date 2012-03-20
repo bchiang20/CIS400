@@ -49,7 +49,7 @@ $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
 $resp = 20;*/
-$unix_time = 1319061600;
+$unix_time = 1319518800;
 $current_time = new DateTime();
 $current_time->setTimestamp($unix_time);
 //echo $current_time->format('Y-m-d H:i:s') . "\n";
@@ -149,6 +149,12 @@ mysql_query("DROP TABLE IF EXISTS thresholds_past");
 mysql_query("CREATE TABLE thresholds_past (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'sbp' AS flag FROM sbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0) t GROUP BY id");
 
 $result_past = mysql_query("SELECT DISTINCT id, trig FROM thresholds_past WHERE count >= '".$limit."' ORDER BY count DESC");
+
+mysql_query("DROP TABLE IF EXISTS uk_scores");
+mysql_query("CREATE TABLE uk_scores (id BIGINT NOT NULL, time DATETIME NOT NULL, score INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,time)) SELECT id , time, SUM(score) AS scoring, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id,time,score, 'temp2' AS flag FROM temp_UK_2 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'hr1' AS flag FROM hr_UK_1 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'hr2' AS flag FROM hr_UK_2 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'hr3' AS flag FROM hr_UK_3 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'sbp1' AS flag FROM sbp_UK_1 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'sbp2' AS flag FROM sbp_UK_2 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'sbp3' AS flag FROM sbp_UK_3 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'resp1' AS flag FROM resp_UK_1 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'resp2' AS flag FROM resp_UK_2 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id,time,score, 'resp3' AS flag FROM resp_UK_3 WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0) t GROUP BY id,time");
+
+mysql_query("DROP TABLE IF EXISTS uk_results");
+mysql_query("CREATE TABLE uk_results select id1 AS id,sum(scoring) AS score, group_concat(flag order by flag asc separator ' ') AS trig from (select id as id1,score as scoring,'age1' as flag from age_UK_1 union all select id as id1,score as scoring,'age2' as flag from age_UK_2 union all select id as id1,score as scoring,'age3' as flag from age_UK_3 UNION ALL (select id as id1, scoring, trig as flag from uk_scores, (select id as in_id,max(scoring) as max from uk_scores group by in_id) t where id=in_id and scoring = max group by id)) y group by id1 having sum(scoring)>5");
 
 if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
