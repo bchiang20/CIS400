@@ -155,6 +155,7 @@ mysql_query("CREATE TABLE uk_scores (id BIGINT NOT NULL, time DATETIME NOT NULL,
 
 mysql_query("DROP TABLE IF EXISTS uk_results");
 mysql_query("CREATE TABLE uk_results select id1 AS id,sum(scoring) AS score, group_concat(flag order by flag asc separator ' ') AS trig from (select id as id1,score as scoring,'age1' as flag from age_UK_1 union all select id as id1,score as scoring,'age2' as flag from age_UK_2 union all select id as id1,score as scoring,'age3' as flag from age_UK_3 UNION ALL (select id as id1, scoring, trig as flag from uk_scores, (select id as in_id,max(scoring) as max from uk_scores group by in_id) t where id=in_id and scoring = max group by id)) y group by id1 having sum(scoring)>5");
+$result_uk = mysql_query("SELECT DISTINCT id, trig FROM uk_results");
 
 if (mysql_num_rows($result) == 0) {
 	echo "Error: unable to get patient info.";
@@ -179,7 +180,7 @@ if (mysql_num_rows($result) == 0) {
 	echo "<tr><td>Total Patients: ".$count."</td></tr>";
 	echo "</table></td>";
 	
-	echo "<td valign=\"top\"><b>Past Patients</b>";
+	echo "<td valign=\"top\" width=300><b>Past Patients</b>";
 	echo "<table>";
 	$count = 0;
 	while ($row = mysql_fetch_array($result_past)){
@@ -187,7 +188,18 @@ if (mysql_num_rows($result) == 0) {
 		$count = $count + 1;
 	}
 	echo "<tr><td>Total Patients: ".$count."</td></tr>";
-	echo "</table></td></tr></table>";
+	echo "</table></td>";
+	
+	echo "<td valign=\"top\"><b>Univ. Kentucky Scoring</b>";
+	echo "<table>";
+	$count = 0;
+	while ($row = mysql_fetch_array($result_uk)){
+		echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
+		$count = $count + 1;
+	}
+	echo "<tr><td>Total Patients: ".$count."</td></tr>";
+	echo "</table>";
+	echo "</td></tr></table>";
 	
 }
 
