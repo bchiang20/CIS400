@@ -10,8 +10,11 @@
 				var lactate = document.getElementById("lactate").value;
 				var resp = document.getElementById("resp").value;
 				var limit = document.getElementById("limit").value;
+				var date = document.getElementById("date").value;
+		
 				
-				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0 || limit.length == 0) {
+				
+				if(hr.length == 0 || temp.length == 0 || wbc_high.length == 0 || wbc_low.length == 0 || sys_bp.length == 0 || lactate.length == 0 || resp.length == 0 || limit.length == 0 || date.length==0) {
 					alert("Please fill in all thresholds");
 					return;
 				}
@@ -34,7 +37,7 @@
 				}
 				
 				var query = "hr=" + hr + "&temp=" + temp + "&wbc_high=" + wbc_high + "&wbc_low=" + wbc_low + 
-				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp + "&limit=" + limit;    
+				"&sys_bp=" + sys_bp + "&lactate=" + lactate + "&resp=" + resp + "&limit=" + limit + "&date="+date;    
 				xmlhttp.open("GET", "editThresholds_process.php?" + query, true);
 				xmlhttp.send(null);
 			}
@@ -84,6 +87,11 @@
 						<td><label> Number of Thresholds: </label></td>
 						<td><input type="text" id="limit"/></td>
 					</tr>
+					<tr>
+						<td><label> Reference Date (YYYY-MM-DD HH:MM:SS): </label></td>
+						<td><input type="text" id="date"/></td>
+					</tr>
+			
 					<?php 
 						$db_username = "brchiang";
 						$db_password = "sepsis";
@@ -130,7 +138,11 @@
 						$row = mysql_fetch_array($thresholds);
 						$limit = $row['value'];
 						
-						echo "<script type=\"text/javascript\">document.getElementById(\"heart_rate\").value='".$hr."';document.getElementById(\"temp\").value='".$tempC."';document.getElementById(\"wbc_high\").value='".$wbc_high."';document.getElementById(\"wbc_low\").value='".$wbc_low."';document.getElementById(\"sys_bp\").value='".$sys_bp."';document.getElementById(\"lactate\").value='".$lactate."';document.getElementById(\"resp\").value='".$resp."';document.getElementById(\"limit\").value='".$limit."';</script>";
+						$thresholds = mysql_query("SELECT curr_date FROM date WHERE id = 1");
+						$row = mysql_fetch_array($thresholds);
+						$date = $row['curr_date'];
+						
+						echo "<script type=\"text/javascript\">document.getElementById(\"heart_rate\").value='".$hr."';document.getElementById(\"temp\").value='".$tempC."';document.getElementById(\"wbc_high\").value='".$wbc_high."';document.getElementById(\"wbc_low\").value='".$wbc_low."';document.getElementById(\"sys_bp\").value='".$sys_bp."';document.getElementById(\"lactate\").value='".$lactate."';document.getElementById(\"resp\").value='".$resp."';document.getElementById(\"limit\").value='".$limit."';document.getElementById(\"date\").value='".$date."';</script>";
 					?>
 					<tr>
 						<td><input type="button" onclick="formsubmit()" value="Update Thresholds" /></td>

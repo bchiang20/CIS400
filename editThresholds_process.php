@@ -18,6 +18,8 @@ $sys_bp = $_GET["sys_bp"];
 $lactate = $_GET["lactate"];
 $resp = $_GET["resp"];
 $limit = $_GET["limit"];
+$date = $_GET["date"];
+//echo $date;
 
 //update current_threshold table
 mysql_query("UPDATE current_thresholds SET value = " . $hr . " WHERE threshold_name = 'heart_rate'");
@@ -28,6 +30,7 @@ mysql_query("UPDATE current_thresholds SET value = " . $sys_bp . " WHERE thresho
 mysql_query("UPDATE current_thresholds SET value = " . $lactate . " WHERE threshold_name = 'lactate'");
 mysql_query("UPDATE current_thresholds SET value = " . $resp . " WHERE threshold_name = 'resp'");
 mysql_query("UPDATE current_thresholds SET value = " . $limit . " WHERE threshold_name = 'limit'");
+mysql_query("UPDATE date SET curr_date = '" . $date . "' WHERE id = 1");
 
 //drop current tables
 /*mysql_query("DROP TABLE temp");

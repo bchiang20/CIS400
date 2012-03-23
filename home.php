@@ -49,7 +49,13 @@ $wbc_low = 4;
 $sys_bp = 90;
 $lactate = 2.5;
 $resp = 20;*/
-$unix_time = 1319518800;
+
+$thresholds = mysql_query("SELECT curr_date FROM date WHERE id = 1");
+$row = mysql_fetch_array($thresholds);
+$date = $row['curr_date'];
+
+//$unix_time = 1319518800;
+$unix_time = strtotime($date);
 $current_time = new DateTime();
 $current_time->setTimestamp($unix_time);
 //echo $current_time->format('Y-m-d H:i:s') . "\n";
@@ -157,9 +163,7 @@ mysql_query("DROP TABLE IF EXISTS uk_results");
 mysql_query("CREATE TABLE uk_results select id1 AS id,sum(scoring) AS score, group_concat(flag order by flag asc separator ' ') AS trig from (select id as id1,score as scoring,'age1' as flag from age_UK_1 union all select id as id1,score as scoring,'age2' as flag from age_UK_2 union all select id as id1,score as scoring,'age3' as flag from age_UK_3 UNION ALL (select id as id1, scoring, trig as flag from uk_scores, (select id as in_id,max(scoring) as max from uk_scores group by in_id) t where id=in_id and scoring = max group by id)) y group by id1 having sum(scoring)>5");
 $result_uk = mysql_query("SELECT DISTINCT id, trig FROM uk_results");
 
-if (mysql_num_rows($result) == 0) {
-	echo "Error: unable to get patient info.";
-} else {
+
 	echo "<table>";
 	echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.php\">Edit</a>)</td></tr>";
 	echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
@@ -169,7 +173,10 @@ if (mysql_num_rows($result) == 0) {
 	echo "<tr><td>Num Days: ".$num_days."</td><td>Reference Date: ".$mysqldate."</td></tr>";
 	echo "</table><br>";
 	//echo "Showing patients with ".$limit." or more threshold trips<br>";
-	echo "<table><tr><td width=300>";
+	if (mysql_num_rows($result) == 0) {
+	echo "Error: unable to get patient info.";
+	} else {
+	echo "<table><tr><td width=300 valign=\"top\">";
 	echo "<b>Active Patients</b>";
 	echo "<table>";
 	$count = 0;
