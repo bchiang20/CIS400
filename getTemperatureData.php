@@ -12,15 +12,15 @@ if (!$link) {
 mysql_select_db($db_name, $link);
 $pid = '9000838533500270'; //TO DO: Grab VALUE FROM SEARCH BOX
 
-$rows_json = mysql_query("SELECT time, heart_rate FROM Presby WHERE id = '".$pid."' AND heart_rate > 0");
+$rows_json = mysql_query("SELECT time, temp FROM Presby WHERE id = '".$pid."' AND temp > 0");
 
 if (mysql_num_rows($rows_json) == 0) {
-	echo "Error: unable to get patient " + $pid + "'s heart rate info.";
+	echo "Error: unable to get patient " + $pid + "'s temperature info.";
 } 
 else {
 	while($row = mysql_fetch_array($rows_json)) 
 	{
-		echo $row['time'] . "\t" . $row['heart_rate']. "\n"; 
+		echo $row['time'] . "\t" . $row['temp']. "\n"; 
 	} 
 }
 mysql_close($link);
