@@ -21,32 +21,101 @@
     	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     	<link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     	
-    	<!-- Chart -->
-    	 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-   		 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-    	 <script type="text/javascript">
-      		google.load("visualization", "1", {packages:["corechart"]});
-      		
-      		google.setOnLoadCallback(drawHeartRateChart);
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js">// <![CDATA[
+		// ]]></script>
+		<script type="text/javascript" src="js/highcharts.js"></script>
+    	<script type="text/javascript" src="js/themes/gray.js"></script>
+    	
+    	<script type="text/javascript">// <![CDATA[
+    		var chart;
+            $(document).ready(function() {
+                var options = {
+                    chart: {
+                        renderTo: 'container',
+                        defaultSeriesType: 'line',
+                        marginRight: 130,
+                        marginBottom: 25
+                    },
+                    title: {
+                        text: 'Heart Rate (BPM) vs. Time',
+                        x: -20 //center
+                    },
+                    subtitle: {
+                        text: '',
+                        x: -20
+                    },
+                    xAxis: {
+                    	title: {
+                    		text: 'Time'
+                    	},
+                        type: 'datetime',
+                        tickInterval: 3600 * 1000, // one hour
+                        tickWidth: 0,
+                        gridLineWidth: 1,
+                        labels: {
+                            align: 'center',
+                            x: -3,
+                            y: 20,
+                            formatter: function() {
+                                return Highcharts.dateFormat('%l%p', this.value);
+                            }
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Heart Rate (BPM)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        formatter: function() {
+                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'top',
+                        x: -10,
+                        y: 100,
+                        borderWidth: 0
+                    },
+                    series: [{
+                        name: 'Heart Rate (BPM)'
+                    }]
+                }
+                // Load data asynchronously using jQuery. On success, add the data
+                // to the options and initiate the chart.
+                // This data is obtained by exporting a GA custom report to TSV.
+                // http://api.jquery.com/jQuery.get/
+                jQuery.get('data.php', null, function(tsv) {
+                    var lines = [];
+                    traffic = [];
+                    try {
+                        // split the data return into lines and parse them
+                        tsv = tsv.split(/\n/g);
+                        jQuery.each(tsv, function(i, line) {
+                            line = line.split(/\t/);
+                            date = Date.parse(line[0] +' UTC');
+                            traffic.push([
+                                date,
+                                parseInt(line[1].replace(',', ''), 10)
+                            ]);
+                        });
+                    } catch (e) {  }
+                    options.series[0].data = traffic;
+                    chart = new Highcharts.Chart(options);
+                });
+            });
+	// ]]></script>
 
-      		function drawHeartRateChart() {
-        		var jsonData = $.ajax({
-          		url: "getHeartData.php",
-          		dataType:"json",
-          		async: false
-          		}).responseText;
-        		
-        		var data = new google.visualization.DataTable(jsonData);
-        		
-        		var chart = new google.visualization.LineChart(document.getElementById('heart_chart'));
-        		chart.draw(data);
-      		}
-      		
-    	</script>
     </head>
-    
     <body>
-    		<div class="navbar navbar-fixed-top">
+    	    		<div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -65,22 +134,7 @@
         </div>
       </div>
     </div>
-    
-    	<h1>Heart Rate</h1>
-    	<div id="heart_chart" style="width: 700px; height: 300px;"></div>
-    	
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
-    </body>
+    	<center><h1>Heart Rate</h1></center>
+		<div id="container" style="width: 70%; height: 350px; margin: 0 auto"></div>		
+	</body>
 </html>
