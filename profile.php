@@ -30,6 +30,9 @@
     		getHeartChart();
     		getTemperatureChart();
     		getBloodPressureChart();
+    		getLactateChart();
+    		getRespirationChart();
+    		getWbcChart();
     		
     		function getHeartChart() {
     			var chart;
@@ -292,6 +295,266 @@
             	});
             	}//end of getBloodPressureChart
             	
+            function getLactateChart() {
+    			var chart;
+            	$(document).ready(function() {
+                	var options = {
+                    	chart: {
+                        	renderTo: 'lactate',
+                        	defaultSeriesType: 'line',
+                        	marginRight: 130,
+                        	marginBottom: 25
+                    	},
+                    	title: {
+                        	text: 'Lactate vs. Time',
+                        	x: -20 //center
+                    	},
+                    	subtitle: {
+                        	text: '',
+                        	x: -20
+                   	 	},
+                    	xAxis: {
+                    		title: {
+                    			text: 'Time'
+                    		},
+                        	type: 'datetime',
+                        	tickInterval: 3600 * 1000, // one hour
+                        	tickWidth: 0,
+                        	gridLineWidth: 1,
+                        	labels: {
+                            	align: 'center',
+                            	x: -3,
+                            	y: 20,
+                            	formatter: function() {
+                                	return Highcharts.dateFormat('%l%p', this.value);
+                            	}
+                        	}
+                    	},
+                    	yAxis: {
+                        	title: {
+                            	text: 'Lactate'
+                        	},
+                        	plotLines: [{
+                            	value: 0,
+                            	width: 1,
+                            	color: '#808080'
+                        	}]
+                    	},
+                    	tooltip: {
+                        	formatter: function() {
+                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                        	}
+                    	},
+                    	legend: {
+                        	layout: 'vertical',
+                        	align: 'right',
+                        	verticalAlign: 'top',
+                        	x: -10,
+                        	y: 100,
+                        	borderWidth: 0
+                    	},
+                    	series: [{
+                        	name: 'Lactate'
+                    	}]
+                	}
+                	// Load data asynchronously using jQuery. On success, add the data
+                	// to the options and initiate the chart.
+                	// This data is obtained by exporting a GA custom report to TSV.
+                	// http://api.jquery.com/jQuery.get/
+                	jQuery.get('getLactateData.php', null, function(tsv) {
+                    	var lines = [];
+                    	traffic = [];
+                    	try {
+                        	// split the data return into lines and parse them
+                        	tsv = tsv.split(/\n/g);
+                        	jQuery.each(tsv, function(i, line) {
+                            	line = line.split(/\t/);
+                            	date = Date.parse(line[0] +' UTC');
+                            	traffic.push([
+                                	date,
+                                	parseInt(line[1].replace(',', ''), 10)
+                            	]);
+                        	});
+                    	} catch (e) {  }
+                    	options.series[0].data = traffic;
+                    	chart = new Highcharts.Chart(options);
+                	});
+            	});
+            	}//end of getLactateChart
+            	
+            function getRespirationChart() {
+    			var chart;
+            	$(document).ready(function() {
+                	var options = {
+                    	chart: {
+                        	renderTo: 'resp',
+                        	defaultSeriesType: 'line',
+                        	marginRight: 130,
+                        	marginBottom: 25
+                    	},
+                    	title: {
+                        	text: 'Respiration Rate vs. Time',
+                        	x: -20 //center
+                    	},
+                    	subtitle: {
+                        	text: '',
+                        	x: -20
+                   	 	},
+                    	xAxis: {
+                    		title: {
+                    			text: 'Time'
+                    		},
+                        	type: 'datetime',
+                        	tickInterval: 3600 * 1000, // one hour
+                        	tickWidth: 0,
+                        	gridLineWidth: 1,
+                        	labels: {
+                            	align: 'center',
+                            	x: -3,
+                            	y: 20,
+                            	formatter: function() {
+                                	return Highcharts.dateFormat('%l%p', this.value);
+                            	}
+                        	}
+                    	},
+                    	yAxis: {
+                        	title: {
+                            	text: 'Respiration Rate'
+                        	},
+                        	plotLines: [{
+                            	value: 0,
+                            	width: 1,
+                            	color: '#808080'
+                        	}]
+                    	},
+                    	tooltip: {
+                        	formatter: function() {
+                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                        	}
+                    	},
+                    	legend: {
+                        	layout: 'vertical',
+                        	align: 'right',
+                        	verticalAlign: 'top',
+                        	x: -10,
+                        	y: 100,
+                        	borderWidth: 0
+                    	},
+                    	series: [{
+                        	name: 'Respiration Rate'
+                    	}]
+                	}
+                	// Load data asynchronously using jQuery. On success, add the data
+                	// to the options and initiate the chart.
+                	// This data is obtained by exporting a GA custom report to TSV.
+                	// http://api.jquery.com/jQuery.get/
+                	jQuery.get('getRespirationData.php', null, function(tsv) {
+                    	var lines = [];
+                    	traffic = [];
+                    	try {
+                        	// split the data return into lines and parse them
+                        	tsv = tsv.split(/\n/g);
+                        	jQuery.each(tsv, function(i, line) {
+                            	line = line.split(/\t/);
+                            	date = Date.parse(line[0] +' UTC');
+                            	traffic.push([
+                                	date,
+                                	parseInt(line[1].replace(',', ''), 10)
+                            	]);
+                        	});
+                    	} catch (e) {  }
+                    	options.series[0].data = traffic;
+                    	chart = new Highcharts.Chart(options);
+                	});
+            	});
+            	}//end of getRespirationChart
+            	
+            function getWbcChart() {
+    			var chart;
+            	$(document).ready(function() {
+                	var options = {
+                    	chart: {
+                        	renderTo: 'wbc',
+                        	defaultSeriesType: 'line',
+                        	marginRight: 130,
+                        	marginBottom: 25
+                    	},
+                    	title: {
+                        	text: 'WBC vs. Time',
+                        	x: -20 //center
+                    	},
+                    	subtitle: {
+                        	text: '',
+                        	x: -20
+                   	 	},
+                    	xAxis: {
+                    		title: {
+                    			text: 'Time'
+                    		},
+                        	type: 'datetime',
+                        	tickInterval: 3600 * 1000, // one hour
+                        	tickWidth: 0,
+                        	gridLineWidth: 1,
+                        	labels: {
+                            	align: 'center',
+                            	x: -3,
+                            	y: 20,
+                            	formatter: function() {
+                                	return Highcharts.dateFormat('%l%p', this.value);
+                            	}
+                        	}
+                    	},
+                    	yAxis: {
+                        	title: {
+                            	text: 'WBC'
+                        	},
+                        	plotLines: [{
+                            	value: 0,
+                            	width: 1,
+                            	color: '#808080'
+                        	}]
+                    	},
+                    	tooltip: {
+                        	formatter: function() {
+                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                        	}
+                    	},
+                    	legend: {
+                        	layout: 'vertical',
+                        	align: 'right',
+                        	verticalAlign: 'top',
+                        	x: -10,
+                        	y: 100,
+                        	borderWidth: 0
+                    	},
+                    	series: [{
+                        	name: 'WBC'
+                    	}]
+                	}
+                	// Load data asynchronously using jQuery. On success, add the data
+                	// to the options and initiate the chart.
+                	// This data is obtained by exporting a GA custom report to TSV.
+                	// http://api.jquery.com/jQuery.get/
+                	jQuery.get('getWbcData.php', null, function(tsv) {
+                    	var lines = [];
+                    	traffic = [];
+                    	try {
+                        	// split the data return into lines and parse them
+                        	tsv = tsv.split(/\n/g);
+                        	jQuery.each(tsv, function(i, line) {
+                            	line = line.split(/\t/);
+                            	date = Date.parse(line[0] +' UTC');
+                            	traffic.push([
+                                	date,
+                                	parseInt(line[1].replace(',', ''), 10)
+                            	]);
+                        	});
+                    	} catch (e) {  }
+                    	options.series[0].data = traffic;
+                    	chart = new Highcharts.Chart(options);
+                	});
+            	});
+            	}//end of getWbcChart
 		// ]]></script>
 
     </head>
@@ -328,6 +591,12 @@
 
 		<center><h1>Lactate</h1></center>
 		<div id="lactate" style="width: 70%; height: 350px; margin: 0 auto"></div>
+
+		<center><h1>Respiration Rate</h1></center>
+		<div id="resp" style="width: 70%; height: 350px; margin: 0 auto"></div>
+		
+		<center><h1>White Blood Count</h1></center>
+		<div id="wbc" style="width: 70%; height: 350px; margin: 0 auto"></div>
 
 	</body>
 </html>
