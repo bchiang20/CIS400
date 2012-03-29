@@ -34,6 +34,10 @@
     		getRespirationChart();
     		getWbcChart();
     		
+    		function load(url) {
+				location.href = url;
+			}
+			
     		function getHeartChart() {
     			var chart;
             	$(document).ready(function() {
@@ -641,7 +645,7 @@
 					echo "<p><strong>Final Location:</strong> " . $row['final_loc']. "</p>";
 					echo "<p><strong>Discharged:</strong> " . $row['discharged']. "</p>";
 
-					if (is_null($row['hours_to_icu'])) {
+					if (is_null($row['hrs_to_icu'])) {
 						echo "<p>No Hours to ICU info</p>";
 					}
 					else {
