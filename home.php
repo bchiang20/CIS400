@@ -49,6 +49,7 @@
     </div>
     <div class="container">
     <div class="hero-unit">
+    <h1>Home</h1>
 	<?php
 	$db_username = "brchiang";
 	$db_password = "sepsis";
@@ -216,15 +217,15 @@
 	
 		echo "<table><tr><td valign=\"top\">";
 		echo "<table>";
-		echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.php\">Edit</a>)</td></tr>";
-		echo "<tr><td width=150>Heart Rate: ".$hr."</td><td width=300>Temp (C): ".$tempC."</td></tr>";
-		echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
-		echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
-		echo "<tr><td>Resp Rate: ".$resp."</td><td>Threshold Limit: ".$limit."</td></tr>";
-		echo "<tr><td>Num Days: ".$num_days."</td><td>Reference Date: ".$mysqldate."</td></tr>";
+		echo "<tr><td><p><strong>Thresholds</strong> (<a href=\"editThresholds.php\">Edit</a>)</p></td></tr>";
+		echo "<tr><td width=150><b>Heart Rate</b>: ".$hr."</td><td width=300><b>Temp (C)</b>: ".$tempC."</td></tr>";
+		echo "<tr><td><b>WBC High</b>: ".$wbc_high."</td><td><b>WBC Low</strong>: ".$wbc_low."</b></td></tr>";
+		echo "<tr><td><b>Systolic BP</b>: ".$sys_bp."</td><td><b>Lactate</b>: ".$lactate."</td></tr>";
+		echo "<tr><td><b>Resp Rate</b>: ".$resp."</td><td><b>Threshold Limit</b>: ".$limit."</td></tr>";
+		echo "<tr><td><b>Num Days</b>: ".$num_days."</td><td><b>Reference Date</b>: ".$mysqldate."</td></tr>";
 		echo "</table></td><td valign=\"top\">";
 		echo "<table><tr><td valign=\"top\">";
-		echo "<b>Threshold Legend</b><br>";
+		echo "<p><strong>Threshold Legend</strong></p>";
 		echo "<img src=\"img/hr.png\" /> - Heart Rate<br>";
 		echo "<img src=\"img/temp.png\" /> - Temperature<br>";
 		echo "<img src=\"img/wbc.png\" /> - White Blood Cell Count<br>";
@@ -237,34 +238,34 @@
 		echo "Error: unable to get patient info.";
 		} else {
 		echo "<table><tr><td width=300 valign=\"top\">";
-		echo "<b>Active Patients</b>";
+		echo "<p><strong>Active Patients</strong></p>";
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result)){
 			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
-		echo "<tr><td>Total Patients: ".$count."</td></tr>";
+		echo "<tr><td><p><strong>Total Patients</strong>: ".$count."</p></td></tr>";
 		echo "</table></td>";
 		
-		echo "<td valign=\"top\" width=300><b>Past Patients</b>";
+		echo "<td valign=\"top\" width=300><p><strong>Past Patients</strong></p>";
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result_past)){
 			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
-		echo "<tr><td>Total Patients: ".$count."</td></tr>";
+		echo "<tr><td><p><strong>Total Patients</strong>: ".$count."</p></td></tr>";
 		echo "</table></td>";
 		
-		echo "<td valign=\"top\"><b>Univ. Kentucky Scoring</b>";
+		echo "<td valign=\"top\"><p><strong>Univ. Kentucky Scoring</strong></p>";
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result_uk)){
 			echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
-		echo "<tr><td>Total Patients: ".$count."</td></tr>";
+		echo "<tr><td><p><strong>Total Patients</strong>: ".$count."</p></td></tr>";
 		echo "</table>";
 		echo "</td></tr></table>";
 		
