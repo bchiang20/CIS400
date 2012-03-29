@@ -17,6 +17,9 @@ $rows_json = mysql_query("SELECT time, lactate FROM Presby WHERE id = '".$pid."'
 if (mysql_num_rows($rows_json) == 0) {
 	echo "Error: unable to get patient " + $pid + "'s systolic blood pressure info.";
 } 
+else if (mysql_num_rows($rows_json) == 1) {
+	echo $row['time'] . "\t" . $row['lactate']. "\n"; 
+}
 else {
 	while($row = mysql_fetch_array($rows_json)) 
 	{

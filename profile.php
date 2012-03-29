@@ -1,9 +1,3 @@
-<?php
-$pid = $_GET["id"];
-//echo $pid;
-
-?>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -107,11 +101,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-					var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getHeartData.php?id=';
-					page = page + id;
-					//alert(page);
+					var id = <?php echo $_GET["id"];?>;
+					var page = 'getHeartData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
@@ -199,11 +190,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getTemperatureData.php?id=';
-					page = page + id;
-					//alert(page);
+                	var id = <?php echo $_GET["id"];?>;
+					var page = 'getTemperatureData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
@@ -291,11 +279,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getBloodPressureData.php?id=';
-					page = page + id;
-					//alert(page);
+                	var id = <?php echo $_GET["id"];?>;
+					var page = 'getBloodPressureData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
@@ -383,10 +368,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getLactateData.php?id=';
-					page = page + id;
+                	var id = <?php echo $_GET["id"];?>;
+					var page = 'getLactateData.php?id=' + id;
 					//alert(page);
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
@@ -475,11 +458,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getRespirationData.php?id=';
-					page = page + id;
-					//alert(page);
+                	var id = <?php echo $_GET["id"];?>;
+					var page = 'getRespirationData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
@@ -567,11 +547,8 @@ $pid = $_GET["id"];
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	var id;
-					id = <?php echo $_GET["id"];?>;
-					var page = 'getWbcData.php?id=';
-					page = page + id;
-					//alert(page);
+                	var id = <?php echo $_GET["id"];?>;
+					var page = 'getWbcData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
@@ -616,24 +593,100 @@ $pid = $_GET["id"];
       </div>
     </div>
     
-    	<!--Graphs-->
-    	<center><h1>Heart Rate</h1></center>
-		<div id="heart" style="width: 70%; height: 350px; margin: 0 auto"></div>
-		
-		<center><h1>Temperature</h1></center>	
-		<div id="temp" style="width: 70%; height: 350px; margin: 0 auto"></div>
-		
-		<center><h1>Blood Pressure</h1></center>
-		<div id="bp" style="width: 70%; height: 350px; margin: 0 auto"></div>
+    	<!--Patient Information-->
+    	<div class="container">
+    	<div class="hero-unit">      
+    	<?php
+    		$db_username = "brchiang";
+			$db_password = "sepsis";
+			$db_host = "fling.seas.upenn.edu";
+			$db_name = "brchiang";
+				
+			$link = mysql_connect($db_host, $db_username, $db_password);
+			if (!$link) {
+				die('Could not connect: ' . mysql_error());
+			}
+			mysql_select_db($db_name, $link);
+			$pid = $_GET["id"];
+    		
+			$rows_json = mysql_query("SELECT * FROM Patients WHERE id = '".$pid."'");
 
-		<center><h1>Lactate</h1></center>
-		<div id="lactate" style="width: 70%; height: 350px; margin: 0 auto"></div>
+			if (mysql_num_rows($rows_json) == 0) {
+				echo "Error: unable to get patient " + $pid + "'s info.";
+			} 
+			else if (mysql_num_rows($rows_json) > 1) {
+				echo "Error: more than 1 patient with this id? Bad DB error";
+			}
+			else {
+				while($row = mysql_fetch_array($rows_json)) 
+				{
+					echo "<h1>Patient Information</h1>";
+					echo "<p><strong>Patient ID:</strong> " .$row['id']. "</h1>";
+					echo "<p><strong>Age:</strong> " . $row['age']. "</p>";
+					echo "<p><strong>Hospital:</strong> " . $row['hosp']. "</p>";
+					if (is_null($row['emergency_room'])) {
+						echo "<p>No Emergency Room info</p>";
+					}
+					else {
+						echo "<p><b>Emergency Room:</b> " . $row['emergency_room']. "</p>";
+					}
+					echo "<p><strong>Arrival Time:</strong> " . $row['arrival']. "</p>"; 
+					echo "<p><strong>Admission Time:</strong> " . $row['admission']. "</p>";
+					if (is_null($row['first_icu'])) {
+						echo "<p>No First ICU listed info</p>";
+					}
+					else {
+						echo "<p><strong>First ICU:</strong> " . $row['first_icu']. "</p>";
+					}
+					echo "<p><strong>Final Location:</strong> " . $row['final_loc']. "</p>";
+					echo "<p><strong>Discharged:</strong> " . $row['discharged']. "</p>";
 
-		<center><h1>Respiration Rate</h1></center>
-		<div id="resp" style="width: 70%; height: 350px; margin: 0 auto"></div>
+					if (is_null($row['hours_to_icu'])) {
+						echo "<p>No Hours to ICU info</p>";
+					}
+					else {
+						echo "<p><strong>Hours to ICU:</strong> " . $row['hrs_to_icu']. "</p>";
+					}	
+									
+					if (is_null($row['deceased'])) {
+						echo "<p>No Deceased info</p>";
+					}
+					else {
+						echo "<p><strong>Deceased:</strong> " . $row['deceased']. "</p>";
+					}	
+					
+					if (is_null($row['rrt'])) {
+						echo "<p>No RRT info</p>";
+					}
+					else {
+						echo "<p><strong>RRT:</strong> " . $row['rrt']. "</p>";
+					}	
+				}
+			}
+			mysql_close($link);
+    	?>        	
+    	<p><a class="btn btn-primary btn-large" onclick="load('search.php')">Search Again &raquo;</a></p>
+     </div></div>
+    	
+    	<div class="container">
+    		<!--Graphs-->
+    		<center><h1>Heart Rate</h1></center>
+			<div id="heart" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-		<center><h1>White Blood Count</h1></center>
-		<div id="wbc" style="width: 70%; height: 350px; margin: 0 auto"></div>
+			<center><h1>Temperature</h1></center>	
+			<div id="temp" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		
+			<center><h1>Blood Pressure</h1></center>
+			<div id="bp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 
+			<center><h1>Lactate</h1></center>
+			<div id="lactate" style="width: 100%; height: 350px; margin: 0 auto"></div>
+
+			<center><h1>Respiration Rate</h1></center>
+			<div id="resp" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		
+			<center><h1>White Blood Count</h1></center>
+			<div id="wbc" style="width: 100%; height: 350px; margin: 0 auto"></div>
+    	</div>
 	</body>
 </html>
