@@ -47,6 +47,7 @@
         </div>
       </div>
     </div>
+    <div class="container">
     <div class="hero-unit">
 	<?php
 	$db_username = "brchiang";
@@ -278,7 +279,7 @@
 	mysql_query("DROP TABLE thresholds");*/
 	mysql_close($link);
 	?>
-	</div>
+	</div></div>
 
 <!-- Le javascript
     ================================================== -->
