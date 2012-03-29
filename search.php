@@ -83,7 +83,8 @@
           <a class="brand" href="#">Senior Design</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="home.php">Home</a></li>
+              <li><a href="home.php">Home</a></li>
+              <li class="active"><a href="search.php">Search</a></li>
               <li><a href="editThresholds.php">Edit Thresholds</a></li>
             </ul>
           </div><!--/.nav-collapse -->

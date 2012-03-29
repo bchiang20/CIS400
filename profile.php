@@ -642,7 +642,12 @@
 					else {
 						echo "<p><strong>First ICU:</strong> " . $row['first_icu']. "</p>";
 					}
-					echo "<p><strong>Final Location:</strong> " . $row['final_loc']. "</p>";
+					if (is_null($row['final_loc'])) {
+						echo "<p>No First Final Location listed info</p>";
+					}
+					else {
+						echo "<p><strong>Final Location:</strong> " . $row['final_loc']. "</p>";
+					}
 					echo "<p><strong>Discharged:</strong> " . $row['discharged']. "</p>";
 
 					if (is_null($row['hrs_to_icu'])) {
@@ -660,10 +665,10 @@
 					}	
 					
 					if (is_null($row['rrt'])) {
-						echo "<p>No RRT info</p>";
+						echo "<p>No Rapid Response Team info</p>";
 					}
 					else {
-						echo "<p><strong>RRT:</strong> " . $row['rrt']. "</p>";
+						echo "<p><strong>Rapid Response Team:</strong> " . $row['rrt']. "</p>";
 					}	
 				}
 			}

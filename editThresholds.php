@@ -89,9 +89,9 @@
           <a class="brand" href="#">Senior Design</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="home.php">Home</a></li>
+              <li><a href="home.php">Home</a></li>
               <li><a href="search.php">Search</a></li>
-              <li><a href="editThresholds.php">Edit Thresholds</a></li>
+              <li class="active"><a href="editThresholds.php">Edit Thresholds</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -101,39 +101,39 @@
 			<form name="thresholds">
 				<table>
 					<tr>
-						<td><label> Heart Rate: </label></td>
+						<td><label><p><strong>Heart Rate: </strong></p></label></td>
 						<td><input type="text" id="heart_rate"/></td>
 					</tr>
 					<tr>
-						<td><label> Temperature: </label></td>
+						<td><label><p><strong>Temperature: </strong></p></label></td>
 						<td><input type="text" id="temp"/></td>
 					</tr>
 					<tr>
-						<td><label> WBC - High: </label></td>
+						<td><label><p><strong>WBC - High: </strong></p></label></td>
 						<td><input type="text" id="wbc_high"/></td>
 					</tr>
 					<tr>
-						<td><label> WBC - Low: </label></td>
+						<td><label><p><strong>WBC - Low: </strong></p></label></td>
 						<td><input type="text" id="wbc_low"/></td>
 					</tr>
 					<tr>
-						<td><label> Systolic Blood Pressure: </label></td>
+						<td><label><p><strong>Systolic Blood Pressure: </strong></p></label></td>
 						<td><input type="text" id="sys_bp"/></td>
 					</tr>
 					<tr>
-						<td><label> Lactate: </label></td>
+						<td><label><p><strong>Lactate: </strong></p></label></td>
 						<td><input type="text" id="lactate"/></td>
 					</tr>
 					<tr>
-						<td><label> Respiratory Rate: </label></td>
+						<td><label><p><strong>Respiratory Rate: </strong></p></label></td>
 						<td><input type="text" id="resp"/></td>
 					</tr>
 					<tr>
-						<td><label> Number of Thresholds: </label></td>
+						<td><label><p><strong>Number of Thresholds: </strong></p></label></td>
 						<td><input type="text" id="limit"/></td>
 					</tr>
 					<tr>
-						<td><label> Reference Date (YYYY-MM-DD HH:MM:SS): </label></td>
+						<td><label><p><strong>Reference Date:</strong> (YYYY-MM-DD HH:MM:SS): </p></label></td>
 						<td><input type="text" id="date"/></td>
 					</tr>
 			
