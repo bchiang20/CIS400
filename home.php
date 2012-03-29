@@ -49,7 +49,6 @@
     </div>
     <div class="container">
     <div class="hero-unit">
-    <h1>Home</h1>
 	<?php
 	$db_username = "brchiang";
 	$db_password = "sepsis";
@@ -262,7 +261,7 @@
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result_uk)){
-			echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
+			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
 		echo "<tr><td><p><strong>Total Patients</strong>: ".$count."</p></td></tr>";
