@@ -194,7 +194,7 @@
 	}*/
 	
 	mysql_query("DROP TABLE IF EXISTS thresholds");
-	mysql_query("CREATE TABLE thresholds (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'sbp' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0) t GROUP BY id");
+	mysql_query("CREATE TABLE thresholds (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(255) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, '<img src=\"img/temp.png\" />' AS flag FROM temp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/hr.png\" />' AS flag FROM hr WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/wbc.png\" />' AS flag FROM wbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/sbp.png\" />' AS flag FROM sbc WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/lac.png\" />' AS flag FROM lactate WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/resp.png\" />' AS flag FROM resp WHERE TIMEDIFF('".$mysqldate."',time) < ".$time_diff." AND TIMEDIFF('".$mysqldate."',time) >=0) t GROUP BY id");
 	
 	$thresholds = mysql_query("SELECT value FROM current_thresholds WHERE threshold_name = 'limit'");
 	$row = mysql_fetch_array($thresholds);
@@ -202,7 +202,7 @@
 	$result = mysql_query("SELECT DISTINCT id, trig FROM thresholds WHERE count >= '".$limit."' ORDER BY count DESC");
 	
 	mysql_query("DROP TABLE IF EXISTS thresholds_past");
-	mysql_query("CREATE TABLE thresholds_past (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(50) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, 'temp' AS flag FROM temp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'hr' AS flag FROM hr WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'wbc' AS flag FROM wbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'sbp' AS flag FROM sbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'lac' AS flag FROM lactate WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, 'resp' AS flag FROM resp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0) t GROUP BY id");
+	mysql_query("CREATE TABLE thresholds_past (id BIGINT NOT NULL, count INT NOT NULL, trig VARCHAR(255) NOT NULL, CONSTRAINT pk PRIMARY KEY(id,count)) SELECT id, COUNT(id) AS count, GROUP_CONCAT(flag ORDER BY flag ASC SEPARATOR ' ') AS trig FROM (SELECT DISTINCT id, '<img src=\"img/temp.png\" />' AS flag FROM temp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/hr.png\" />' AS flag FROM hr WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/wbc.png\" />' AS flag FROM wbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/sbp.png\" />' AS flag FROM sbc WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/lac.png\" />' AS flag FROM lactate WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0 UNION ALL SELECT DISTINCT id, '<img src=\"img/resp.png\" />' AS flag FROM resp WHERE TIMEDIFF('".$pastdate."',time) < ".$time_diff." AND TIMEDIFF('".$pastdate."',time) >=0) t GROUP BY id");
 	
 	$result_past = mysql_query("SELECT DISTINCT id, trig FROM thresholds_past WHERE count >= '".$limit."' ORDER BY count DESC");
 	
@@ -213,15 +213,24 @@
 	mysql_query("CREATE TABLE uk_results select id1 AS id,sum(scoring) AS score, group_concat(flag order by flag asc separator ' ') AS trig from (select id as id1,score as scoring,'age1' as flag from age_UK_1 union all select id as id1,score as scoring,'age2' as flag from age_UK_2 union all select id as id1,score as scoring,'age3' as flag from age_UK_3 UNION ALL (select id as id1, scoring, trig as flag from uk_scores, (select id as in_id,max(scoring) as max from uk_scores group by in_id) t where id=in_id and scoring = max group by id)) y group by id1 having sum(scoring)>5");
 	$result_uk = mysql_query("SELECT DISTINCT id, trig FROM uk_results");
 	
-	
+		echo "<table><tr><td valign=\"top\">";
 		echo "<table>";
 		echo "<tr><td><b>Thresholds</b> (<a href=\"editThresholds.php\">Edit</a>)</td></tr>";
-		echo "<tr><td width=150>Heart Rate: ".$hr."</td><td>Temp (C): ".$tempC."</td></tr>";
+		echo "<tr><td width=150>Heart Rate: ".$hr."</td><td width=300>Temp (C): ".$tempC."</td></tr>";
 		echo "<tr><td>WBC High: ".$wbc_high."</td><td>WBC Low: ".$wbc_low."</td></tr>";
 		echo "<tr><td>Systolic BP: ".$sys_bp."</td><td>Lactate: ".$lactate."</td></tr>";
 		echo "<tr><td>Resp Rate: ".$resp."</td><td>Threshold Limit: ".$limit."</td></tr>";
 		echo "<tr><td>Num Days: ".$num_days."</td><td>Reference Date: ".$mysqldate."</td></tr>";
-		echo "</table><br>";
+		echo "</table></td><td valign=\"top\">";
+		echo "<table><tr><td valign=\"top\">";
+		echo "<b>Threshold Legend</b><br>";
+		echo "<img src=\"img/hr.png\" /> - Heart Rate<br>";
+		echo "<img src=\"img/temp.png\" /> - Temperature<br>";
+		echo "<img src=\"img/wbc.png\" /> - White Blood Cell Count<br>";
+		echo "<img src=\"img/sbp.png\" /> - Systolic Blood Pressure<br>";
+		echo "<img src=\"img/lac.png\" /> - Lactate<br>";
+		echo "<img src=\"img/resp.png\" /> - Respiratory Rate<br>";
+		echo "</td></tr></table></td></tr></table><br>";
 		//echo "Showing patients with ".$limit." or more threshold trips<br>";
 		if (mysql_num_rows($result) == 0) {
 		echo "Error: unable to get patient info.";
@@ -231,7 +240,7 @@
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result)){
-			echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
+			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
 		echo "<tr><td>Total Patients: ".$count."</td></tr>";
@@ -241,7 +250,7 @@
 		echo "<table>";
 		$count = 0;
 		while ($row = mysql_fetch_array($result_past)){
-			echo "<tr><td>".$row['id']."</td><td>".$row['trig']."</td></tr>";
+			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
 			$count = $count + 1;
 		}
 		echo "<tr><td>Total Patients: ".$count."</td></tr>";
