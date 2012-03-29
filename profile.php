@@ -1,3 +1,9 @@
+<?php
+$pid = $_GET["id"];
+//echo $pid;
+
+?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -96,11 +102,17 @@
                         	name: 'Heart Rate (BPM)'
                     	}]
                 	}
+                	
                 	// Load data asynchronously using jQuery. On success, add the data
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getHeartData.php', null, function(tsv) {
+					var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getHeartData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -187,7 +199,12 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getTemperatureData.php', null, function(tsv) {
+                	var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getTemperatureData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -274,7 +291,12 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getBloodPressureData.php', null, function(tsv) {
+                	var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getBloodPressureData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -361,7 +383,12 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getLactateData.php', null, function(tsv) {
+                	var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getLactateData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -448,7 +475,12 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getRespirationData.php', null, function(tsv) {
+                	var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getRespirationData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -535,7 +567,12 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-                	jQuery.get('getWbcData.php', null, function(tsv) {
+                	var id;
+					id = <?php echo $_GET["id"];?>;
+					var page = 'getWbcData.php?id=';
+					page = page + id;
+					//alert(page);
+                	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
                     	traffic = [];
                     	try {
@@ -559,7 +596,7 @@
 
     </head>
     <body>
-    	    		<div class="navbar navbar-fixed-top">
+   	  <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">

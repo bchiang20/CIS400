@@ -10,7 +10,7 @@ if (!$link) {
 }
 
 mysql_select_db($db_name, $link);
-$pid = '9000838533500270'; //TO DO: Grab VALUE FROM SEARCH BOX
+$pid = $_GET["id"];
 
 $rows_json = mysql_query("SELECT time, lactate FROM Presby WHERE id = '".$pid."' AND lactate > 0");
 
