@@ -28,6 +28,15 @@
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
    </head>
 	<body>
+		<script type="text/javascript">
+	    function toggle_visibility(id) {
+	       var e = document.getElementById(id);
+	       if(e.style.display == 'block')
+	          e.style.display = 'none';
+	       else
+	          e.style.display = 'block';
+	    	}
+	</script>
 		<div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -218,7 +227,7 @@
 		echo "<table>";
 		echo "<tr><td><p><strong>Thresholds</strong> (<a href=\"editThresholds.php\">Edit</a>)</p></td></tr>";
 		echo "<tr><td width=150><b>Heart Rate</b>: ".$hr."</td><td width=300><b>Temp (C)</b>: ".$tempC."</td></tr>";
-		echo "<tr><td><b>WBC High</b>: ".$wbc_high."</td><td><b>WBC Low</strong>: ".$wbc_low."</b></td></tr>";
+		echo "<tr><td><b>WBC High</b>: ".$wbc_high."</td><td><b>WBC Low</b>: ".$wbc_low."</td></tr>";
 		echo "<tr><td><b>Systolic BP</b>: ".$sys_bp."</td><td><b>Lactate</b>: ".$lactate."</td></tr>";
 		echo "<tr><td><b>Resp Rate</b>: ".$resp."</td><td><b>Threshold Limit</b>: ".$limit."</td></tr>";
 		echo "<tr><td><b>Num Days</b>: ".$num_days."</td><td><b>Reference Date</b>: ".$mysqldate."</td></tr>";
@@ -257,8 +266,8 @@
 		echo "<tr><td><p><strong>Total Patients</strong>: ".$count."</p></td></tr>";
 		echo "</table></td>";
 		
-		echo "<td valign=\"top\"><p><strong>Univ. Kentucky Scoring</strong></p>";
-		echo "<table>";
+		echo "<td valign=\"top\"><p><strong><a href=\"#\" onclick=\"toggle_visibility('uk_table')\">Univ. Kentucky Scoring</a></strong></p>";
+		echo "<table id=\"uk_table\" style=\"display: none\">";
 		$count = 0;
 		while ($row = mysql_fetch_array($result_uk)){
 			echo "<tr><td><a href=\"profile.php?id=".$row['id']."\">".$row['id']."</a></td><td>".$row['trig']."</td></tr>";
@@ -297,6 +306,7 @@
     <script src="../assets/js/bootstrap-collapse.js"></script>
     <script src="../assets/js/bootstrap-carousel.js"></script>
     <script src="../assets/js/bootstrap-typeahead.js"></script>
+    <table style="display: block"
 	</body>
 	
 </html>
