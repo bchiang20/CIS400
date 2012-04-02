@@ -593,109 +593,133 @@
               <li><a href="editThresholds.php">Edit Thresholds</a></li>
             </ul>
           </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+        </div><!--container-fluid-->
+      </div><!--navbar-inner-->
+    </div><!--navbar navbar-fixed-top-->
     
-    	<!--Patient Information-->
-    	<div class="container">
-    	<div class="hero-unit">      
-    	<?php
-    		$db_username = "brchiang";
-			$db_password = "sepsis";
-			$db_host = "fling.seas.upenn.edu";
-			$db_name = "brchiang";
+   	<!--Patient Information-->
+    <div class="container-fluid">
+    	<div class="row-fluid">
+    		<div class="span3">
+    			<div class="well sidebar-nav">
+    				<ul class="nav nav-list">
+    				<li class="nav-header">Patient Information</li>
+    				<?php
+    					$db_username = "brchiang";
+						$db_password = "sepsis";
+						$db_host = "fling.seas.upenn.edu";
+						$db_name = "brchiang";
 				
-			$link = mysql_connect($db_host, $db_username, $db_password);
-			if (!$link) {
-				die('Could not connect: ' . mysql_error());
-			}
-			mysql_select_db($db_name, $link);
-			$pid = $_GET["id"];
+						$link = mysql_connect($db_host, $db_username, $db_password);
+						if (!$link) {
+							die('Could not connect: ' . mysql_error());
+						}
+						mysql_select_db($db_name, $link);
+						$pid = $_GET["id"];
     		
-			$rows_json = mysql_query("SELECT * FROM Patients WHERE id = '".$pid."'");
+						$rows_json = mysql_query("SELECT * FROM Patients WHERE id = '".$pid."'");
 
-			if (mysql_num_rows($rows_json) == 0) {
-				echo "Error: unable to get patient " + $pid + "'s info.";
-			} 
-			else if (mysql_num_rows($rows_json) > 1) {
-				echo "Error: more than 1 patient with this id? Bad DB error";
-			}
-			else {
-				while($row = mysql_fetch_array($rows_json)) 
-				{
-					echo "<h1>Patient Information</h1>";
-					echo "<p><strong>Patient ID:</strong> " .$row['id']. "</h1>";
-					echo "<p><strong>Age:</strong> " . $row['age']. "</p>";
-					echo "<p><strong>Hospital:</strong> " . $row['hosp']. "</p>";
-					if (is_null($row['emergency_room'])) {
-						echo "<p>No Emergency Room info</p>";
-					}
-					else {
-						echo "<p><b>Emergency Room:</b> " . $row['emergency_room']. "</p>";
-					}
-					echo "<p><strong>Arrival Time:</strong> " . $row['arrival']. "</p>"; 
-					echo "<p><strong>Admission Time:</strong> " . $row['admission']. "</p>";
-					if (is_null($row['first_icu'])) {
-						echo "<p>No First ICU listed info</p>";
-					}
-					else {
-						echo "<p><strong>First ICU:</strong> " . $row['first_icu']. "</p>";
-					}
-					if (is_null($row['final_loc'])) {
-						echo "<p>No First Final Location listed info</p>";
-					}
-					else {
-						echo "<p><strong>Final Location:</strong> " . $row['final_loc']. "</p>";
-					}
-					echo "<p><strong>Discharged:</strong> " . $row['discharged']. "</p>";
-
-					if (is_null($row['hrs_to_icu'])) {
-						echo "<p>No Hours to ICU info</p>";
-					}
-					else {
-						echo "<p><strong>Hours to ICU:</strong> " . $row['hrs_to_icu']. "</p>";
-					}	
-									
-					if (is_null($row['deceased'])) {
-						echo "<p>No Deceased info</p>";
-					}
-					else {
-						echo "<p><strong>Deceased:</strong> " . $row['deceased']. "</p>";
-					}	
+						if (mysql_num_rows($rows_json) == 0) {
+							echo "Error: unable to get patient " + $pid + "'s info.";
+						} 
+						else if (mysql_num_rows($rows_json) > 1) {
+							echo "Error: more than 1 patient with this id? Bad DB error";
+						}
+						else {
+							while($row = mysql_fetch_array($rows_json)) 
+							{
+								//echo "<h1>Patient Information</h1>";
 					
-					if (is_null($row['rrt'])) {
-						echo "<p>No Rapid Response Team info</p>";
-					}
-					else {
-						echo "<p><strong>Rapid Response Team:</strong> " . $row['rrt']. "</p>";
-					}	
-				}
-			}
-			mysql_close($link);
-    	?>        	
-    	<p><a class="btn btn-primary btn-large" onclick="load('search.php')">Search Again &raquo;</a></p>
-     </div></div>
+								//echo "<table><tr><td valign=\"top\">";
+								//echo "<table>";
+								//echo "<tr><td><b>Patient ID</b>: ".$row['id']. "</td><td><b>Age</b>: ".$row['age']."</td></tr>";
+								//echo "</table>";
+					
+								echo "<li><strong>Patient ID:</strong> ".$row['id']."</li>";
+								echo "<li><strong>Age:</strong> ".$row['age']."</li>";
+								echo "<li><strong>Hospital:</strong> ".$row['hosp']."</li>";
+								if (is_null($row['emergency_room'])) 
+								{
+									echo "<li><strong>Emergency Room:</strong> N/A</li>";
+								}
+								else 
+								{
+									echo "<li><strong>Emergency Room:</strong> " .$row['emergency_room']."</li>";
+								}
+								echo "<li><strong>Arrival Time:</strong> ".$row['arrival']."</li>"; 
+								echo "<li><strong>Admission Time:</strong> ".$row['admission']."</li>";
+								if (is_null($row['first_icu'])) 
+								{
+									echo "<li><strong>First ICU:</strong> N/A<li>";
+								}
+								else 
+								{
+									echo "<li><strong>First ICU:</strong> ".$row['first_icu']."</li>";
+								}
+								if (is_null($row['final_loc'])) 
+								{
+									echo "<li><strong>Final Location:</strong> N/A</li>";
+								}
+								else {
+									echo "<li><strong>Final Location:</strong> ".$row['final_loc']."</li>";
+								}
+								echo "<li><strong>Discharged:</strong> " .$row['discharged']."</li>";
+
+								if (is_null($row['hrs_to_icu'])) 
+								{
+									echo "<li><strong>Hours to ICU:</strong> N/A</li>";
+								}
+								else 
+								{
+									echo "<li><strong>Hours to ICU:</strong> " .$row['hrs_to_icu']."</li>";
+								}	
+									
+								if (is_null($row['deceased'])) 
+								{
+									echo "<li><strong>Deceased:</strong> N/A</li>";
+								}
+								else 
+								{
+									echo "<li><strong>Deceased:</strong> ".$row['deceased']."</li>";
+								}	
+					
+								if (is_null($row['rrt'])) 
+								{
+									echo "<li><strong>Rapid Response Team:</strong> N/A</li>";
+								}
+								else 
+								{
+									echo "<li><strong>Rapid Response Team:</strong> ".$row['rrt']."</li>";
+								}	
+							}
+						}
+							mysql_close($link);
+    					?>        	
+    				</ul>
+    		</div><!--well sidebar nav-->
+    		<a class="btn btn-primary btn-large" onclick="load('search.php')">Search Again &raquo;</a>
+    		</div><!--span3--> 	
+
     	
-    	<div class="container">
-    		<!--Graphs-->
-    		<center><h1>Heart Rate</h1></center>
-			<div id="heart" style="width: 100%; height: 350px; margin: 0 auto"></div>
+    <div class="span9">
+    	<!--Graphs-->
+    	<center><h1>Heart Rate</h1></center>
+		<div id="heart" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-			<center><h1>Temperature</h1></center>	
-			<div id="temp" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		<center><h1>Temperature</h1></center>	
+		<div id="temp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-			<center><h1>Blood Pressure</h1></center>
-			<div id="bp" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		<center><h1>Blood Pressure</h1></center>
+		<div id="bp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 
-			<center><h1>Lactate</h1></center>
-			<div id="lactate" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		<center><h1>Lactate</h1></center>
+		<div id="lactate" style="width: 100%; height: 350px; margin: 0 auto"></div>
 
-			<center><h1>Respiration Rate</h1></center>
-			<div id="resp" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		<center><h1>Respiration Rate</h1></center>
+		<div id="resp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-			<center><h1>White Blood Count</h1></center>
-			<div id="wbc" style="width: 100%; height: 350px; margin: 0 auto"></div>
-    	</div>
-	</body>
+		<center><h1>White Blood Count</h1></center>
+		<div id="wbc" style="width: 100%; height: 350px; margin: 0 auto"></div>
+    </div>
+</body>
 </html>
