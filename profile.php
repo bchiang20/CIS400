@@ -61,7 +61,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -69,7 +69,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -85,7 +85,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + ' BPM </b>';
                         	}
                     	},
                     	legend: {
@@ -151,7 +151,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -159,7 +159,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -175,7 +175,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + ' degrees Celsius </b>';
                         	}
                     	},
                     	legend: {
@@ -240,7 +240,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -248,7 +248,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -264,7 +264,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + ' BP </b>';
                         	}
                     	},
                     	legend: {
@@ -329,7 +329,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -337,7 +337,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -353,7 +353,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + '</b>';
                         	}
                     	},
                     	legend: {
@@ -419,7 +419,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -427,7 +427,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -443,7 +443,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + '</b>';
                         	}
                     	},
                     	legend: {
@@ -508,7 +508,7 @@
                     			text: 'Time'
                     		},
                         	type: 'datetime',
-                        	tickInterval: 3600 * 1000, // one hour
+                        	//tickInterval: 3600 * 1000, // one hour
                         	tickWidth: 0,
                         	gridLineWidth: 1,
                         	labels: {
@@ -516,7 +516,7 @@
                             	x: -3,
                             	y: 20,
                             	formatter: function() {
-                                	return Highcharts.dateFormat('%l%p', this.value);
+                                	return Highcharts.dateFormat('%b%e %l%p', this.value);
                             	}
                         	}
                     	},
@@ -532,7 +532,7 @@
                     	},
                     	tooltip: {
                         	formatter: function() {
-                                return Highcharts.dateFormat('%l%p', this.x-(1000*3600)) +'-'+ Highcharts.dateFormat('%l%p', this.x) +': <b>'+ this.y + '</b>';
+                                return Highcharts.dateFormat('%b %e %l:%M%p', this.x) + ': <b>'+ this.y + '</b>';
                         	}
                     	},
                     	legend: {
@@ -703,22 +703,22 @@
     	
     <div class="span9">
     	<!--Graphs-->
-    	<center><h1>Heart Rate</h1></center>
+    	<h1>Heart Rate</h1>
 		<div id="heart" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-		<center><h1>Temperature</h1></center>	
+		<h1>Temperature</h1>
 		<div id="temp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-		<center><h1>Blood Pressure</h1></center>
+		<h1>Blood Pressure</h1>
 		<div id="bp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 
-		<center><h1>Lactate</h1></center>
+		<h1>Lactate</h1>
 		<div id="lactate" style="width: 100%; height: 350px; margin: 0 auto"></div>
 
-		<center><h1>Respiration Rate</h1></center>
+		<h1>Respiration Rate</h1>
 		<div id="resp" style="width: 100%; height: 350px; margin: 0 auto"></div>
 		
-		<center><h1>White Blood Count</h1></center>
+		<h1>White Blood Count</h1>
 		<div id="wbc" style="width: 100%; height: 350px; margin: 0 auto"></div>
     </div>
 </body>
