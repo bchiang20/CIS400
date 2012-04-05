@@ -589,7 +589,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="home.php">Home</a></li>
-              <li><a href="search.php">Search</a></li>
+              <!--<li><a href="search.php">Search</a></li>-->
               <li><a href="editThresholds.php">Edit Thresholds</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -697,8 +697,7 @@
     					?>        	
     				</ul>
     		</div><!--well sidebar nav-->
-    		<a class="btn btn-primary btn-large" onclick="load('search.php')">Search Again &raquo;</a>
-    		</div><!--span3--> 	
+    		<a class="btn btn-primary btn-large" onclick="load('home.php')">Return to Home</a>    		</div><!--span3--> 	
 
     	
     <div class="span9">

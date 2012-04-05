@@ -90,7 +90,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="home.php">Home</a></li>
-              <li><a href="search.php">Search</a></li>
+              <!--<li><a href="search.php">Search</a></li>-->
               <li class="active"><a href="editThresholds.php">Edit Thresholds</a></li>
             </ul>
           </div><!--/.nav-collapse -->
