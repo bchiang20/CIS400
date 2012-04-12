@@ -1,0 +1,213 @@
+
+% Andrew G. West - progress_spec.tex
+% Main LaTeX file for CIS400/401 Progress Report Specification
+
+\documentclass{sig-alternate}
+\usepackage{mdwlist}
+\usepackage{url}
+
+\begin{document} 
+
+\title{Detecting Sepsis in the Intensive Care Unit}
+\subtitle{CIS400/401 Senior Design Final Report}
+\numberofauthors{5}
+\author{
+Bryan Chiang \\ \email{brchiang@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Philadelphia, PA
+\and Isabel Fan \\ \email{isafan@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Philadelphia, PA   
+\and Insup Lee \\ \email{lee@cis.upenn.edu} \\ Univ. of Pennsylvania \\ Philadelphia, PA
+\and Margaret Fortino-Mullen \\ \email{margaret.fortino-mullen@uphs.upenn.edu} \\ Hospital at Univ. of Pennsylvania \\ Philadelphia, PA}
+\date{}
+\maketitle
+
+
+\begin{abstract}
+\vspace{10pt}
+\textit{Severe sepsis and septic shock are major healthcare concerns that impact patients in hospital settings. The onset of sepsis occurs rapidly, giving nurses and physicians little time to react and this results in high mortality rates. Sepsis is especially a concern in Intensive Care Units (ICUs), as these patients are in critical conditions and undergo operations where the risk of contracting sepsis is high. While there are guidelines for the management of sepsis, these only address how to handle patients after they have become septic. Our project will attempt to aid in the early detection of sepsis in hopes of giving nurses and physicians more time to treat patients. Given past sepsis patient data, we expect to build a predictive model that will be able to detect sepsis before the typical symptoms arise, decreasing the mortality rate from sepsis and septic shock.} 
+\end{abstract}
+
+\vspace{10pt}
+\section{Introduction}
+\vspace{10pt}
+\label{sec:intro}
+
+Intro...
+
+\vspace{10pt}
+\section{Related Work}
+\vspace{10pt}
+\label{sec:related_work}
+Related work...
+
+\vspace{10pt}
+\section{Data Collection}
+\vspace{10pt}
+\label{sec:sys_model}
+
+Sepsis data was collected from two different data sources: the Medical ICU at the Hospital of the University of Pennsylvania and Penn Presbyterian Medical Center.  Data from the MICU was statistically analyzed for trends in lab values but not incorporated into the smart alarm framework that was developed due to several reasons discussed below.  The data from Penn Presbyterian was ultimately used in the smart alarm framework.
+
+\subsection{Medical ICU}
+\label{subsec:micu}
+\vspace{10pt}
+
+Data from the MICU was collected from Dr. Barry Fuchs, the medical director of the MICU, who had been looking at septic patients.  The data set included 934 unique patients from July 2, 2008 - September 18, 2009.  The logic rule for this set of patients is as follows: the patient was on the general care ward, had a blood culture taken, and was transferred to the MICU in the following 2-24 hours.  The data set contains two consecutive labs for each patient that are within twelve hours of when the blood culture was drawn.  There is also information for the lab data from the last blood culture that was drawn.  The date range for the previous blood culture varies widely, ranging from within the same day to over a year.  Due to the large gap in time between some of the blood cultures, many of the patients were unusable in determining sepsis trends.  The lab values that were collected in this data set are listed below.
+\begin{itemize*}
+  \item Bicarbonate
+  \item Bilirubin
+  \item Creatinine
+  \item Glucose
+  \item International Normalized Ratio (INR)
+  \item Lactic acid
+  \item Platelets
+  \item PO2 Arterial
+  \item White blood cell count
+\end{itemize*}
+
+Due to the limited nature of this data set, only a statistical analysis was performed.  In order to do this, a few assumptions were made.  None of the classifications of the patients were included with the data set, so which patients ultimately became septic is unknown.  However, a patient being transferred from the general ward to the MICU suggests that the patient was suspected to be septic.  For the analysis, the transfer time to the MICU was considered as the reference point to compare all patients.  Ideally, the reference point would have been when each patient was diagnosed with sepsis, but this information was unavailable.  Also, since each patient only has two data points for each lab value (one from the blood culture taken at transfer and the other being the most recent blood culture before that), the patients were grouped into buckets according to the time difference between blood cultures.  The patients were grouped into five different buckets, representing time differences ranging from one to five days.  Median values for each lab result were evaluated for trends.  Trends in the data for lab values from five days before transfer to one day before transfer were evident in INR and bilirubin.
+
+For both INR and bilirubin, median values steadily increased from five days prior to transfer to one day prior.  INR values reached 1.5, which is the threshold value for sepsis according to the Surviving Sepsis Campaign guidelines.  Bilirubin values reached 2 mg/dL, which is the stated threshold value for severe sepsis.  The trends for INR and bilirubin are shown in  Figure~\ref{fig:inr} and  Figure~\ref{fig:bilirubin} respectively.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{INRGraph.png}
+	\end{center}
+	\caption{Median INR values before MICU transfer}
+	\label{fig:inr}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{BilirubinGraph.png}
+	\end{center}
+	\caption{Median Bilirubin values before MICU transfer}
+	\label{fig:bilirubin}
+\end{figure}
+
+
+\subsection{Penn Presbyterian Medical Center}
+\label{subsec:presby}
+\vspace{10pt}
+
+Data from Presby was collected by a sepsis study group from patients in the month of October 2011.  The data set includes 1254 unique patients, each of which has been de-identified of personal information and newly identified by a unique ID number.  For each patient, there is basic information such as their age, date and time admitted, hospital location, date and time discharged, and whether they died in the hospital.  There is also information for six vital signs for each patient.  The number of vital signs depends on the length of stay for each patient, which varies.  The six vital signs collected are listed below.
+
+\begin{itemize*}
+  \item Heart rate
+  \item Lactate
+  \item Respiratory rate
+  \item Systolic blood pressure
+  \item Temperature
+  \item White blood cell count
+\end{itemize*}
+
+Similar to the MICU data, classifications for whether the patient ultimately got septic are unknown for this data set.  However, the frequency of this data set was greater than the MICU data, and was ultimately used to build the sepsis smart alarm framework.  
+
+\subsection{Ethics}
+\label{subsec:ethics}
+\vspace{10pt}
+
+Ethics...
+
+\section{Smart Alarm Framework}
+\vspace{10pt}
+\label{sec:framework}
+
+Since patient classifications were unknown, a smart alarm framework that could alert for suspect patients as well as serve as a research tool was built.  The main functionality is to provide a set of adjustable thresholds for each vital sign collected.  Depending on the values of the thresholds and the number of thresholds that needed to be triggered, the smart alarm displays a different set of patients.  This was motivated by interviews and surveys that were conducted with nurses and physicians in the University of Pennsylvania Health System.  There was a general consensus that the vital signs provided in the Presby data set were helpful in determining whether or not a patient gets septic, but the threshold values each nurse or physician assigned varied.  Even though there are guideline values set by the Surviving Sepsis Campaign, each nurse and physician may deviate from these values.  There was also a discrepancy in the number of thresholds the nurses and physicians would look at to raise attention to that patient.  Most respondents said that three was their threshold limit.  Our framework takes into account these differences and allows the user to changes these values.
+
+Due to the relatively small Presby data set, several assumptions were made when building the framework.  Ideally, such a smart alarm system would be used with streaming vital sign and lab data so that the information is collected in real time.  As the data is only from one month, a reference date was required to signify the current point in time.  The framework has an adjustable reference date that can be set to any time during the month of October 2011 to model how the smart alarm would look at that date.  Each patient has multiple values for each vital sign over the course of their stay at the hospital, but the date and time of each reading rarely matches up with other vital signs.  For example, respiratory rate, heart rate, systolic blood pressure, and temperature are often taken together on the same reading.  However, since white blood cell count and lactate require a blood sampling, these tests are taken less often and at different times than the other four vitals.  When trying to identify which patients trigger more than the specified level of thresholds, a time window had to be specified for those threshold trips to take place.  From the reference date, a time window of one day was used to pull the patients who met the threshold criteria.  
+
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{MainScreen.png}
+	\end{center}
+	\caption{Snapshot of home screen}
+	\label{fig:home}
+\end{figure*}
+
+\subsection{User Interface}
+\label{subsec:ui}
+\vspace{10pt}
+
+In [figure screenshot], the home screen of the smart alarm is displayed.  The current threshold values, number of thresholds, and reference date are displayed on top, along with a legend with each of the vital signs.  ``Active Patients'' are those who triggered more than the specified number of thresholds within one day of the reference date. ``Past Patients'' are those who triggered the set number of thresholds the day before the active patients.  Beside each of the patients, the symbols with the thresholds that were triggered are listed.  This gives the user a quick intuition into why that patient was alerted.  Clicking on a patient ID will bring the user to the patient profile page.
+
+The user profile page contains basic information about the patient, such as their age and time admitted.  The page also provides a more detailed view of each of the vital signs so that a nurse or physician get get a better snapshot of that patient's history.  While the main page notifies which thresholds were triggered, the patient profile can show how that vital sign has been trending. [reference screenshot]
+
+\section{Comparison of Scoring Systems}
+\vspace{10pt}
+\label{sec:scoring}
+
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{ScoringComparison.png}
+	\end{center}
+	\caption{Number of patients who triggered each scoring system}
+	\label{fig:comparison}
+\end{figure*}
+
+Another feature of the smart alarm framework is the ability to test different sepsis scoring systems.  The main scoring system employed was a basic count of the number of thresholds that were triggered at the current threshold levels.  If the number of thresholds exceeded the specified limit, the patient would be alerted on the screen.  The baseline values for the thresholds were taken from the Surviving Sepsis Campaign guidelines, and the threshold values are listed in Table~\ref{tab:threshold_table}.  Another scoring system that was tested was an internally developed system from the University of Kentucky.  They used a more gradual system, assigning a score to a range of values for each vital sign.  This sliding scale took into account the severity of the vital sign and assigned a higher score for vital signs that were further from the normal range.  Their system would alert a patient if the score was greater than six.  The ranges and scores for each vital sign can be seen in Table~\ref{tab:uk_table}.  This scoring system was coded into the smart alarm framework and compared to the output of the first scoring system.
+
+\begin{table}
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{| l | l |}
+\hline
+
+{\bf Value} & {\bf Threshold}\\ \hline
+Heart Rate & > 90 bpm\\ \hline
+Temperature & > 38.3 $^\circ$C\\ \hline
+White Blood Cell Count & >12000/$\mu$L  or <4000/$\mu$L\\ \hline
+Systolic Blood Pressure & < 90 mm Hg\\ \hline
+Lactate & > 2.5 mmol/L\\ \hline
+Respiratory Rate & > 20 bpm\\ \hline
+
+ \end{tabular}
+	\caption{Baseline threshold values from the Surviving Sepsis Campaign guidelines}
+  \label{tab:threshold_table}
+\end{table}
+
+\begin{table*}
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{| l | l | l | l | l | l | l | l |}
+\hline
+
+{\bf Score} & {\bf 3} & {\bf 2} & {\bf 1} & {\bf 0} & {\bf 1} & {\bf 2} & {\bf 3}\\ \hline
+Heart Rate (bpm) & & < 40 & 41-50 & 51-100 & 101-110 & 110-129 & >= 130\\ \hline
+Temperature ($^\circ$C) & & < 35 & & 35-38.4 & & >= 38.5 &\\ \hline
+Systolic Blood Pressure (mm Hg) & < 70 & 71-80 & 81-100 & 101-199 & & >= 200 & \\ \hline
+Respiratory Rate (bpm) & & < 9 & & 9-14 & 15-20 & 21-29 & >= 30\\ \hline
+Age (years) & & & & & 65-74 & 75-84 & >= 85\\ \hline
+BMI (kg/$m^2$) & & & < 18.5 & & 25.1-34.9 & > 35 & \\ \hline
+
+ \end{tabular}
+	\caption{University of Kentucky internal sepsis scoring system thresholds}
+  \label{tab:uk_table}
+\end{table*}
+
+While the accuracy of each scoring system could not be accessed, a comparison was made to see how consistent each scoring scheme was.  The reference date was changed to each day during the month of October 2011, and the outputted patients were compared for each scoring system.  On average, the two systems did a poor job of agreeing on septic patients.  On a typical day, about three to five patients were triggered by the alert system, but only one to two of these were the same for both scoring systems.  This shows that scoring systems between hospitals do not agree consistently on septic patients and further research needs to be done to refine these alerts.  A summary of the scoring comparison is shown in Figure~\ref{fig:comparison}.
+
+\section{Further Work}
+\vspace{10pt}
+\label{sec:furtherwork}
+
+The most immediate future work would be to obtain classification labels for the patients of the Penn Presbyterian data set.  While an adjustable smart alarm framework is in place, the results and parameters cannot be evaluated without knowing which patients got septic.  Additionally, with patient labels, researchers would be able to individually alter thresholds to try to find which individual thresholds have the greatest impact on determining sepsis.  
+
+The smart alarm framework that was created serves two purposes moving forward.  First, it acts as a research platform where the researcher can continue to alter threshold values and evaluate how accurate the detection of sepsis is.  Additionally, researchers can apply scoring systems from other health systems to compare the relative effectiveness.  Second, as more effective scoring systems are developed, the framework can serve as the basis for a patient monitor alert system.  With streaming, real-time data, the home screen will constantly update as the scoring for each patient changes.  This will be useful for nurses and physicians to monitor their patients.  They can both get a broad overview of the state of their patients, as well as have the option to click on individual patients to view specific vital signs.
+
+\section{Conclusion}
+\vspace{10pt}
+\label{sec:conclusion}
+
+Conclusion...
+
+
+
+
+
+\vspace{10pt}
+\bibliographystyle{plain}     % Please do not change the bib-style
+\bibliography{progress_spec}  % Just the *.BIB filename
+
+\vspace{10pt}
+\appendix
+
+
+
+\end{document} 
+

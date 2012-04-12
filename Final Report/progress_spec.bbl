@@ -1,0 +1,47 @@
+\begin{thebibliography}{1}
+
+\bibitem{smart_alarm}
+Andrew King, Alex Roederer, David Arney, Sanjian Chen, Margaret Fortino-Mullen,
+  Ana Giannareas, C.~William~Hanson III, Vanessa Kern, Nicholas Stevens,
+  Jonathan Tannen, Adrian~Viesca Trevino, Soojin Park, Oleg Sokolsky, , and
+  Insup Lee.
+\newblock Gsa: A framework for rapid prototyping of smart alarm systems.
+\newblock {\em Departmental Papers (CIS)}, November 2010.
+
+\bibitem{statins}
+I.~Kouroumichakis, N.~Papanas, S.~Proikaki, P.~Zarogoulidis, and E.~Maltezos.
+\newblock Statins in prevention and treatment of severe sepsis and septic
+  shock.
+\newblock {\em European Journal of Internal Medicine}, 22:125--133, 2011.
+
+\bibitem{deaths}
+L.~A Lynn and J.~Paul Curry.
+\newblock Patterns of unexpected in-hospital deaths: A root cause analysis.
+\newblock {\em Patient Safety in Surgery}, 5(3), February 2011.
+
+\bibitem{epi}
+Greg S.~Martin M.D., David M.~Mannino M.D., Stephanie~Eaton M.D., and Marc~Moss
+  M.D.
+\newblock The epidemiology of sepsis in the united states from 1979 through
+  2000.
+\newblock {\em The New England Journal of Medicine}, 348:1546--1554, 2003.
+
+\bibitem{bayes}
+Ernesto Ocampo, Mariana Maceiras, Silvia Herrera, Cecilia Maurente, Daniel
+  Rodriguez, , and Miguel~A. Sicilia.
+\newblock Comparing bayesian inference and case-based reasoning as support
+  techniques in the diagnosis of acute bacterial meningitis.
+\newblock {\em Expert Systems with Applications}, 38:10343--10354, 2011.
+
+\bibitem{sepsis_def}
+U.S. National~Library of~Medicine.
+\newblock Sepsis.
+\newblock \texttt{http://www.ncbi.nlm.nih.gov/pubmedhealth/PMH0001687/}.
+
+\bibitem{meds}
+N.~Shapiro, R.~Wolfe, R.~Moore, E.~Smith, E.~Burdick, and D.~Bates.
+\newblock Mortality in emergency department sepsis (meds) score: a
+  prospectively derived and validated clinical prediction rule.
+\newblock \texttt{http://www.ncbi.nlm.nih.gov/pubmed/12626967/}.
+
+\end{thebibliography}
