@@ -1,0 +1,14 @@
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdftex 2011.10.13)  16 APR 2012 15:36
+entering extended mode
+**C:/xampp/htdocs/CIS400/Final*Report/sig-alternate.cls
+("C:/xampp/htdocs/CIS400/Final Report/sig-alternate.cls"
+! Undefined control sequence.
+l.48 \usepackage
+                {epsfig}
+? 
+! Emergency stop.
+l.48 \usepackage
+                {epsfig}
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!

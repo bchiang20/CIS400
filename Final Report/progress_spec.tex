@@ -10,7 +10,7 @@
 
 \title{Detecting Sepsis in the Intensive Care Unit}
 \subtitle{CIS400/401 Senior Design Final Report}
-\numberofauthors{5}
+\numberofauthors{4}
 \author{
 Bryan Chiang \\ \email{brchiang@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Philadelphia, PA
 \and Isabel Fan \\ \email{isafan@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Philadelphia, PA   
@@ -41,15 +41,36 @@ Related work...
 \vspace{10pt}
 \section{Data Collection}
 \vspace{10pt}
-\label{sec:sys_model}
+\label{sec:data}
 
 Sepsis data was collected from two different data sources: the Medical ICU at the Hospital of the University of Pennsylvania and Penn Presbyterian Medical Center.  Data from the MICU was statistically analyzed for trends in lab values but not incorporated into the smart alarm framework that was developed due to several reasons discussed below.  The data from Penn Presbyterian was ultimately used in the smart alarm framework.
 
+\vspace{10pt}
+\subsection{Surgical ICU}
+\label{subsec:sicu}
+\vspace{10pt}
+
+The original intent was to use prospective data from the SICU because it was easier to monitor the patients currently in the SICU.  With a manageable number of patients at any given time, it would be possible to keep track of which patients got septic and which ones did not.  After sepsis diagnosis, data from each classification of patients could be pulled and aggregated.  Data from the SICU comes from two sources: streaming vital sign data from the patient bedside monitors and daily lab tests from blood cultures.  The streaming vital sign data comes at a frequency of 58 seconds, whereas the lab tests are taken a few times a day.  Institutional Review Board (IRB) approval was submitted for this data, but due to HIPAA constraints, consent from each patient was required to access their data.  This level of consent was unfeasible to obtain, as the data would need to be continually be collected from new patients.  The list of available data items from the SICU is listed in the Appendix.
+
+\vspace{10pt}
 \subsection{Medical ICU}
 \label{subsec:micu}
 \vspace{10pt}
 
-Data from the MICU was collected from Dr. Barry Fuchs, the medical director of the MICU, who had been looking at septic patients.  The data set included 934 unique patients from July 2, 2008 - September 18, 2009.  The logic rule for this set of patients is as follows: the patient was on the general care ward, had a blood culture taken, and was transferred to the MICU in the following 2-24 hours.  The data set contains two consecutive labs for each patient that are within twelve hours of when the blood culture was drawn.  There is also information for the lab data from the last blood culture that was drawn.  The date range for the previous blood culture varies widely, ranging from within the same day to over a year.  Due to the large gap in time between some of the blood cultures, many of the patients were unusable in determining sepsis trends.  The lab values that were collected in this data set are listed below.
+Data from the MICU was collected from Dr. Barry Fuchs, the medical director of the MICU, who had been looking at septic patients.  The data set included 934 unique patients from July 2, 2008 - September 18, 2009.  The logic rule for this set of patients is as follows: the patient was on the general care ward, had a blood culture taken, and was transferred to the MICU in the following 2-24 hours.  The data set contains two consecutive labs for each patient that are within twelve hours of when the blood culture was drawn.  There is also information for the lab data from the last blood culture that was drawn.  The date range for the previous blood culture varies widely, ranging from within the same day to over a year.  Due to the large gap in time between some of the blood cultures, many of the patients were unusable in determining sepsis trends.  The values that were collected in this data set are listed below.
+\linebreak
+
+\noindent \textbf{Patient information:}
+\begin{itemize*}
+  \item Date / time of blood culture
+  \item Location at order time
+  \item Time of transfer to ICU
+  \item Discharge time
+  \item Deceased status
+  \item Discharge description
+\end{itemize*}
+
+\noindent \textbf{Lab values:}
 \begin{itemize*}
   \item Bicarbonate
   \item Bilirubin
@@ -82,13 +103,30 @@ For both INR and bilirubin, median values steadily increased from five days prio
 	\label{fig:bilirubin}
 \end{figure}
 
-
+\vspace{10pt}
 \subsection{Penn Presbyterian Medical Center}
 \label{subsec:presby}
 \vspace{10pt}
 
-Data from Presby was collected by a sepsis study group from patients in the month of October 2011.  The data set includes 1254 unique patients, each of which has been de-identified of personal information and newly identified by a unique ID number.  For each patient, there is basic information such as their age, date and time admitted, hospital location, date and time discharged, and whether they died in the hospital.  There is also information for six vital signs for each patient.  The number of vital signs depends on the length of stay for each patient, which varies.  The six vital signs collected are listed below.
+Data from Presby was collected by a sepsis study group from patients in the month of October 2011.  The data set includes 1254 unique patients, each of which has been de-identified of personal information and newly identified by a unique ID number.  For each patient, there is basic information such as their age, date and time admitted, hospital location, date and time discharged, and whether they died in the hospital.  There is also information for six vital signs for each patient.  The number of vital signs depends on the length of stay for each patient, which varies.  The patient information and six vital signs collected are listed below.
+\linebreak
 
+\noindent \textbf{Patient information:}
+\begin{itemize*}
+  \item Hospital
+  \item Emergency room time (if applicable)
+  \item Arrival time
+  \item Admission time
+  \item First ICU time (if applicable)
+  \item Final location
+  \item Discharge time
+  \item Hours to the ICU (if applicable)
+  \item Deceased status
+  \item RRT Call time (if applicable)
+  \item Age
+\end{itemize*}
+
+\noindent \textbf{Vital signs / lab values:}
 \begin{itemize*}
   \item Heart rate
   \item Lactate
@@ -100,12 +138,14 @@ Data from Presby was collected by a sepsis study group from patients in the mont
 
 Similar to the MICU data, classifications for whether the patient ultimately got septic are unknown for this data set.  However, the frequency of this data set was greater than the MICU data, and was ultimately used to build the sepsis smart alarm framework.  
 
+\vspace{10pt}
 \subsection{Ethics}
 \label{subsec:ethics}
 \vspace{10pt}
 
 Ethics...
 
+\vspace{10pt}
 \section{Smart Alarm Framework}
 \vspace{10pt}
 \label{sec:framework}
@@ -122,14 +162,16 @@ Due to the relatively small Presby data set, several assumptions were made when 
 	\label{fig:home}
 \end{figure*}
 
+\vspace{10pt}
 \subsection{User Interface}
 \label{subsec:ui}
 \vspace{10pt}
 
-In [figure screenshot], the home screen of the smart alarm is displayed.  The current threshold values, number of thresholds, and reference date are displayed on top, along with a legend with each of the vital signs.  ``Active Patients'' are those who triggered more than the specified number of thresholds within one day of the reference date. ``Past Patients'' are those who triggered the set number of thresholds the day before the active patients.  Beside each of the patients, the symbols with the thresholds that were triggered are listed.  This gives the user a quick intuition into why that patient was alerted.  Clicking on a patient ID will bring the user to the patient profile page.
+In  Figure~\ref{fig:home}, the home screen of the smart alarm is displayed.  The current threshold values, number of thresholds, and reference date are displayed on top, along with a legend with each of the vital signs.  ``Active Patients'' are those who triggered more than the specified number of thresholds within one day of the reference date. ``Past Patients'' are those who triggered the set number of thresholds the day before the active patients.  Beside each of the patients, the symbols with the thresholds that were triggered are listed.  This gives the user a quick intuition into why that patient was alerted.  Clicking on a patient ID will bring the user to the patient profile page.
 
 The user profile page contains basic information about the patient, such as their age and time admitted.  The page also provides a more detailed view of each of the vital signs so that a nurse or physician get get a better snapshot of that patient's history.  While the main page notifies which thresholds were triggered, the patient profile can show how that vital sign has been trending. [reference screenshot]
 
+\vspace{10pt}
 \section{Comparison of Scoring Systems}
 \vspace{10pt}
 \label{sec:scoring}
@@ -182,6 +224,7 @@ BMI (kg/$m^2$) & & & < 18.5 & & 25.1-34.9 & > 35 & \\ \hline
 
 While the accuracy of each scoring system could not be accessed, a comparison was made to see how consistent each scoring scheme was.  The reference date was changed to each day during the month of October 2011, and the outputted patients were compared for each scoring system.  On average, the two systems did a poor job of agreeing on septic patients.  On a typical day, about three to five patients were triggered by the alert system, but only one to two of these were the same for both scoring systems.  This shows that scoring systems between hospitals do not agree consistently on septic patients and further research needs to be done to refine these alerts.  A summary of the scoring comparison is shown in Figure~\ref{fig:comparison}.
 
+\vspace{10pt}
 \section{Further Work}
 \vspace{10pt}
 \label{sec:furtherwork}
@@ -190,6 +233,7 @@ The most immediate future work would be to obtain classification labels for the 
 
 The smart alarm framework that was created serves two purposes moving forward.  First, it acts as a research platform where the researcher can continue to alter threshold values and evaluate how accurate the detection of sepsis is.  Additionally, researchers can apply scoring systems from other health systems to compare the relative effectiveness.  Second, as more effective scoring systems are developed, the framework can serve as the basis for a patient monitor alert system.  With streaming, real-time data, the home screen will constantly update as the scoring for each patient changes.  This will be useful for nurses and physicians to monitor their patients.  They can both get a broad overview of the state of their patients, as well as have the option to click on individual patients to view specific vital signs.
 
+\vspace{10pt}
 \section{Conclusion}
 \vspace{10pt}
 \label{sec:conclusion}
@@ -206,7 +250,58 @@ Conclusion...
 
 \vspace{10pt}
 \appendix
+\section{SICU Data List}
+\label{app:sicu_data}
 
+\noindent \textbf{SICU vital sign data:}
+\begin{itemize*}
+  \item Heart rate \vspace{3pt}
+  \item Blood pressure \vspace{3pt}
+  \item Urine output \vspace{3pt}
+  \item Respiratory rate \vspace{3pt}
+  \item Pulsoximetry \vspace{3pt}
+  \item Supplemental oxygen level \vspace{3pt}
+  \item Temperature \vspace{3pt}
+  \item Cardiac rhythm \vspace{20pt}
+\end{itemize*}
+
+\noindent \textbf{SICU lab work data:}
+\begin{itemize*}
+  \item WBC count \vspace{3pt}
+  \item ANC \vspace{3pt}
+  \item Bands \vspace{3pt}
+  \item Hemoglobin \vspace{3pt}
+  \item Hematocrit \vspace{3pt}
+  \item Platelet count \vspace{3pt}
+  \item Sodium \vspace{3pt}
+  \item Potassium \vspace{3pt}
+  \item Chloride \vspace{3pt}
+  \item Bicarbonate \vspace{3pt}
+  \item Bun \vspace{3pt}
+  \item Creatinine \vspace{3pt}
+  \item Glucose \vspace{3pt}
+  \item Bilirubin \vspace{3pt}
+  \item AST \vspace{3pt}
+  \item ALT \vspace{3pt}
+  \item Ammonia \vspace{3pt}
+  \item Albumin \vspace{3pt}
+  \item Amylase \vspace{3pt}
+  \item Lipase \vspace{3pt}
+  \item Lactate \vspace{3pt}
+  \item Pt (INR)  \vspace{3pt}
+  \item PTT \vspace{3pt}
+  \item Fibrinogen \vspace{3pt}
+  \item Sedimentation rate \vspace{3pt}
+  \item C-Reactive protein \vspace{3pt}
+  \item SVO2 \vspace{3pt}
+  \item Venous blood gas sample \vspace{3pt}
+  \item Arterial blood gas sample \vspace{3pt}
+  \item Blood cultures \vspace{3pt}
+  \item Sputum cultures \vspace{3pt}
+  \item Urine cultures \vspace{3pt}
+  \item CSF cultures \vspace{3pt}
+  \item Sterile body fluid cultures \vspace{3pt}
+\end{itemize*}
 
 
 \end{document} 
