@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    	
     	<title>Patient Profile</title>
     	<link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
     	<style>
@@ -35,6 +36,8 @@
 			}
 	
     		function getHeartChart() {
+    			var id = <?php echo $_GET["id"];?>;
+
     			var chart;
             	$(document).ready(function() {
                 	var options = {
@@ -49,7 +52,7 @@
                         	x: -20 //center
                     	},
                     	subtitle: {
-                        	text: '',
+                        	text: 'Patient ID No.: ' + id,
                         	x: -20
                    	 	},
                     	xAxis: {
@@ -217,7 +220,6 @@
                 	// to the options and initiate the chart.
                 	// This data is obtained by exporting a GA custom report to TSV.
                 	// http://api.jquery.com/jQuery.get/
-					var id = <?php echo $_GET["id"];?>;
 					var page = 'getHeartData.php?id=' + id;
                 	jQuery.get(page, null, function(tsv) {
                     	var lines = [];
@@ -367,7 +369,6 @@
     </div><!--navbar navbar-fixed-top-->
     	
     	<!--Graphs-->
-    	<h1>Everything</h1>
 		<div id="heart" style="min-width: 400px; min-height: 500px; margin: 0 auto"></div>
 
 </body>
