@@ -19,7 +19,7 @@ $date = $row['curr_date'];
 $unix_time = strtotime($date);
 $mysqldate = date('Y-m-d H:i:s',$unix_time);
 	
-$rows_json = mysql_query("SELECT time, heart_rate FROM Presby WHERE id = '".$pid."' AND heart_rate > 0 AND timediff('".$mysqldate."', time) > 0");
+$rows_json = mysql_query("SELECT time, heart_rate FROM Presby WHERE id = '".$pid."' AND heart_rate > 0 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) > -2 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) <= 0");
 
 if (mysql_num_rows($rows_json) == 0) {
 	echo "Error: unable to get patient " + $pid + "'s heart rate info.";
