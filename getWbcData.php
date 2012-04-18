@@ -20,7 +20,7 @@ $date = $row['curr_date'];
 $unix_time = strtotime($date);
 $mysqldate = date('Y-m-d H:i:s',$unix_time);
 
-$rows_json = mysql_query("SELECT time, wbc FROM Presby WHERE id = '".$pid."' AND wbc > 0 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) > -5 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) <= 0");
+$rows_json = mysql_query("SELECT time, wbc FROM Presby WHERE id = '".$pid."' AND wbc > 0 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) > -2 AND TIME_TO_SEC(timediff(time, '".$mysqldate."'))/(3600*24) <= 0");
 
 if (mysql_num_rows($rows_json) == 0) {
 	echo "Error: unable to get patient " + $pid + "'s white blood count info.";
