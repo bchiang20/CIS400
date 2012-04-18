@@ -25,6 +25,7 @@
 		// ]]></script>
 		<script type="text/javascript" src="js/highcharts.js"></script>
     	<script type="text/javascript" src="js/themes/gray.js"></script>
+      	<script src="http://code.highcharts.com/modules/exporting.js"></script> 
     	
     	<script type="text/javascript">// <![CDATA[
     		getHeartChart();
@@ -37,7 +38,7 @@
     		function load(url) {
 				location.href = url;
 			}
-			
+	
     		function getHeartChart() {
     			var chart;
             	$(document).ready(function() {
@@ -703,7 +704,7 @@
     <div class="span9">
     	<!--Graphs-->
     	<h1>Heart Rate</h1>
-		<div id="heart" style="width: 100%; height: 350px; margin: 0 auto"></div>
+		<div id="heart" style="min-width: 400px; height: 350px; margin: 0 auto"></div>
 		
 		<h1>Temperature</h1>
 		<div id="temp" style="width: 100%; height: 350px; margin: 0 auto"></div>
