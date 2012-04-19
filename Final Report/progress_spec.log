@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  16 APR 2012 16:44
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  18 APR 2012 19:41
 entering extended mode
 **C:/xampp/htdocs/CIS400/Final*Report/progress_spec.tex
 ("C:/xampp/htdocs/CIS400/Final Report/progress_spec.tex"
@@ -264,22 +264,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--113
  []
 
 [2 <C:/xampp/htdocs/CIS400/Final Report/INRGraph.png> <C:/xampp/htdocs/CIS400/F
-inal Report/BilirubinGraph.png>]
-<MainScreen.png, id=20, 630.10406pt x 290.58563pt>
-File: MainScreen.png Graphic file (type png)
- <use MainScreen.png>
-Package pdftex.def Info: MainScreen.png used on input line 159.
-(pdftex.def)             Requested size: 504.0pt x 232.42891pt.
+inal Report/BilirubinGraph.png>] <home.png, id=20, 1105.9719pt x 447.5922pt>
+File: home.png Graphic file (type png)
 
-<ScoringComparison.png, id=21, 879.285pt x 274.02374pt>
-File: ScoringComparison.png Graphic file (type png)
+<use home.png>
+Package pdftex.def Info: home.png used on input line 150.
+(pdftex.def)             Requested size: 504.0pt x 203.96893pt.
+ <patientGraph.png, id=21, 1283.7561pt x 499.8675pt>
+File: patientGraph.png Graphic file (type png)
 
-<use ScoringComparison.png>
-Package pdftex.def Info: ScoringComparison.png used on input line 181.
-(pdftex.def)             Requested size: 504.0pt x 157.06485pt.
- [3] [4 <C:/xampp/htdocs/CIS400/Final Report/MainScreen.png> <C:/xampp/htdocs/C
-IS400/Final Report/ScoringComparison.png>]
-("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl"
+<use patientGraph.png>
+Package pdftex.def Info: patientGraph.png used on input line 167.
+(pdftex.def)             Requested size: 240.0pt x 93.45033pt.
+ <NumPatientsComp.png, id=22, 905.784pt x 319.9152pt>
+File: NumPatientsComp.png Graphic file (type png)
+
+<use NumPatientsComp.png>
+Package pdftex.def Info: NumPatientsComp.png used on input line 189.
+(pdftex.def)             Requested size: 504.0pt x 178.00414pt.
+
+<ScoringComparision_Similarities.png, id=23, 873.5034pt x 319.9152pt>
+File: ScoringComparision_Similarities.png Graphic file (type png)
+
+<use ScoringComparision_Similarities.png>
+Package pdftex.def Info: ScoringComparision_Similarities.png used on input line
+ 197.
+(pdftex.def)             Requested size: 504.0pt x 184.5844pt.
+ [3 <C:/xampp/htdocs/CIS400/Final Report/patientGraph.png>] [4 <C:/xampp/htdocs
+/CIS400/Final Report/home.png> <C:/xampp/htdocs/CIS400/Final Report/NumPatients
+Comp.png>]
+Overfull \hbox (11.60962pt too wide) in paragraph at lines 265--275
+[][] 
+ []
+
+("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl" [5 <C:/xampp/htdocs/CI
+S400/Final Report/ScoringComparision_Similarities.png>]
 LaTeX Font Info:    Try loading font information for T1+aett on input line 39.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
@@ -290,17 +309,21 @@ Overfull \hbox (22.03992pt too wide) in paragraph at lines 37--40
 9 .  
  []
 
-) [5] [6
+)
+Underfull \vbox (badness 7256) has occurred while \output is active []
+
+ [6]
+[7
 
 ] ("C:\xampp\htdocs\CIS400\Final Report\progress_spec.aux") ) 
 Here is how much of TeX's memory you used:
- 2569 strings out of 494045
- 31186 string characters out of 3145947
- 93038 words of memory out of 3000000
- 5810 multiletter control sequences out of 15000+200000
+ 2583 strings out of 494045
+ 31505 string characters out of 3145947
+ 93070 words of memory out of 3000000
+ 5822 multiletter control sequences out of 15000+200000
  47803 words of font info for 66 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 41i,8n,26p,1324b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,8n,26p,1629b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files 
 (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files (x86)/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.
@@ -313,9 +336,9 @@ lic/amsfonts/cm/cmti9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helve
 tic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr
 8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb>
-Output written on progress_spec.pdf (6 pages, 182481 bytes).
+Output written on progress_spec.pdf (7 pages, 6415188 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 82 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

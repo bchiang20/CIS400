@@ -145,6 +145,14 @@ Similar to the MICU data, classifications for whether the patient ultimately got
 
 Ethics...
 
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{home.png}
+	\end{center}
+	\caption{Snapshot of home screen}
+	\label{fig:home}
+\end{figure*}
+
 \vspace{10pt}
 \section{Smart Alarm Framework}
 \vspace{10pt}
@@ -154,37 +162,46 @@ Since patient classifications were unknown, a smart alarm framework that could a
 
 Due to the relatively small Presby data set, several assumptions were made when building the framework.  Ideally, such a smart alarm system would be used with streaming vital sign and lab data so that the information is collected in real time.  As the data is only from one month, a reference date was required to signify the current point in time.  The framework has an adjustable reference date that can be set to any time during the month of October 2011 to model how the smart alarm would look at that date.  Each patient has multiple values for each vital sign over the course of their stay at the hospital, but the date and time of each reading rarely matches up with other vital signs.  For example, respiratory rate, heart rate, systolic blood pressure, and temperature are often taken together on the same reading.  However, since white blood cell count and lactate require a blood sampling, these tests are taken less often and at different times than the other four vitals.  When trying to identify which patients trigger more than the specified level of thresholds, a time window had to be specified for those threshold trips to take place.  From the reference date, a time window of one day was used to pull the patients who met the threshold criteria.  
 
-\begin{figure*}
+\begin{figure}
 	\begin{center}
-		\includegraphics[width=1.0\linewidth]{MainScreen.png}
+		\includegraphics[width=1.0\linewidth]{patientGraph.png}
 	\end{center}
-	\caption{Snapshot of home screen}
-	\label{fig:home}
-\end{figure*}
+	\caption{Snapshot of a patient's vital sign history graph}
+	\label{fig:patient_graph}
+\end{figure}
 
 \vspace{10pt}
 \subsection{User Interface}
 \label{subsec:ui}
 \vspace{10pt}
 
-In  Figure~\ref{fig:home}, the home screen of the smart alarm is displayed.  The current threshold values, number of thresholds, and reference date are displayed on top, along with a legend with each of the vital signs.  ``Active Patients'' are those who triggered more than the specified number of thresholds within one day of the reference date. ``Past Patients'' are those who triggered the set number of thresholds the day before the active patients.  Beside each of the patients, the symbols with the thresholds that were triggered are listed.  This gives the user a quick intuition into why that patient was alerted.  Clicking on a patient ID will bring the user to the patient profile page.
+In Figure~\ref{fig:home}, the home screen of the smart alarm is displayed.  The current threshold values, number of thresholds, and reference date are displayed on top, along with a legend with each of the vital signs.  ``Active Patients'' are those who triggered more than the specified number of thresholds within one day of the reference date. ``Past Patients'' are those who triggered the set number of thresholds the day before the active patients.  Beside each of the patients, the symbols with the thresholds that were triggered are listed.  This gives the user a quick intuition into why that patient was alerted.  Clicking on a patient ID will bring the user to the patient profile page.
 
-The user profile page contains basic information about the patient, such as their age and time admitted.  The page also provides a more detailed view of each of the vital signs so that a nurse or physician get get a better snapshot of that patient's history.  While the main page notifies which thresholds were triggered, the patient profile can show how that vital sign has been trending. [reference screenshot]
+The user profile page contains basic information about the patient, such as their age and time admitted.  The page also provides a more detailed view of each of the vital signs so that a nurse or physician get get a better snapshot of that patient's history.  While the main page notifies which thresholds were triggered, the patient profile can show how that vital sign has been trending. A consolidated graph with each vital sign is shown in Figure~\ref{fig:patient_graph}.
 
 \vspace{10pt}
-\section{Comparison of Scoring Systems}
+\section{Scoring Algorithms}
 \vspace{10pt}
 \label{sec:scoring}
 
 \begin{figure*}
 	\begin{center}
-		\includegraphics[width=1.0\linewidth]{ScoringComparison.png}
+		\includegraphics[width=1.0\linewidth]{NumPatientsComp.png}
 	\end{center}
-	\caption{Number of patients who triggered each scoring system}
-	\label{fig:comparison}
+	\caption{Number of patients alerted by each scoring algorithm}
+	\label{fig:num_patients}
 \end{figure*}
 
-Another feature of the smart alarm framework is the ability to test different sepsis scoring systems.  The main scoring system employed was a basic count of the number of thresholds that were triggered at the current threshold levels.  If the number of thresholds exceeded the specified limit, the patient would be alerted on the screen.  The baseline values for the thresholds were taken from the Surviving Sepsis Campaign guidelines, and the threshold values are listed in Table~\ref{tab:threshold_table}.  Another scoring system that was tested was an internally developed system from the University of Kentucky.  They used a more gradual system, assigning a score to a range of values for each vital sign.  This sliding scale took into account the severity of the vital sign and assigned a higher score for vital signs that were further from the normal range.  Their system would alert a patient if the score was greater than six.  The ranges and scores for each vital sign can be seen in Table~\ref{tab:uk_table}.  This scoring system was coded into the smart alarm framework and compared to the output of the first scoring system.
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{ScoringComparision_Similarities.png}
+	\end{center}
+	\caption{Consistency of alert algorithms}
+	\label{fig:num_alerts}
+\end{figure*}
+
+Another feature of the smart alarm framework is the ability to test different sepsis scoring systems.  The main scoring system employed was a basic count of the number of thresholds that were triggered at the current threshold levels.  If the number of thresholds exceeded the specified limit, the patient would be alerted on the screen.  The baseline values for the thresholds were taken from the Surviving Sepsis Campaign guidelines, and the threshold values are listed in Table~\ref{tab:threshold_table}.  
+Additionally, scoring algorithms from the University of Kentucky Medical Center, Robert Wood Johnson (RWJ) University Hospital, and the Methodist Hospital System were tested.  The University of Kentucky used a more gradual scoring criteria, assigning a score to a range of values for each vital sign.  This sliding scale took into account the severity of the vital sign and assigned a higher score for vital signs that were further from the normal range.  Their system would alert a patient if the score was greater than six.  The RWJ University Hospital algorithm was similar to the baseline algorithm from the Surviving Sepsis Campaign Guidelines, but used a two step triggering system.  First, vital signs were tested with defined threshold values.  If any one of these four signs were triggered, lab values were tested with defined threshold values.  If any two indicators were triggered (one vital plus one lab value, or two vitals), that patient would be alerted.  The Methodist Hospital scoring algorithm is similar to that of the University of Kentucky, using a sliding scale of ranges for each value and assigning a score to each range.  A patient was alerted if the score totalled four or greater.  The algorithm constraints for the University of Kentucky, RWJ University Hospital, and Methodist Hospital are shown in Table~\ref{tab:uk_table}, Table~\ref{tab:rwj_table}, and Table~\ref{tab:mh_table} respectively.  Each of these scoring algorithms was coded into the smart alarm framework and compared to the output of the first scoring algorithm.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.5}
@@ -205,6 +222,7 @@ Respiratory Rate & > 20 bpm\\ \hline
 \end{table}
 
 \begin{table*}
+\begin{center}
 \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{| l | l | l | l | l | l | l | l |}
 \hline
@@ -218,11 +236,47 @@ Age (years) & & & & & 65-74 & 75-84 & >= 85\\ \hline
 BMI (kg/$m^2$) & & & < 18.5 & & 25.1-34.9 & > 35 & \\ \hline
 
  \end{tabular}
-	\caption{University of Kentucky internal sepsis scoring system thresholds}
+	\caption{University of Kentucky internal sepsis scoring algorithm thresholds}
   \label{tab:uk_table}
+\end{center}
 \end{table*}
 
-While the accuracy of each scoring system could not be accessed, a comparison was made to see how consistent each scoring scheme was.  The reference date was changed to each day during the month of October 2011, and the outputted patients were compared for each scoring system.  On average, the two systems did a poor job of agreeing on septic patients.  On a typical day, about three to five patients were triggered by the alert system, but only one to two of these were the same for both scoring systems.  This shows that scoring systems between hospitals do not agree consistently on septic patients and further research needs to be done to refine these alerts.  A summary of the scoring comparison is shown in Figure~\ref{fig:comparison}.
+\begin{table}
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{| l | l |}
+\hline
+
+{\bf Value} & {\bf Threshold}\\ \hline
+Heart Rate & > 100 bpm\\ \hline
+Temperature & < 36 or > 38.3 $^\circ$C\\ \hline
+Systolic Blood Pressure & < 90 mm Hg\\ \hline
+Respiratory Rate & > 24 bpm\\ \hline
+White Blood Cell Count & >12000/$\mu$L  or <4000/$\mu$L\\ \hline
+Lactate & > 2.0 mmol/L\\ \hline
+Bands & > 10\% \\ \hline
+
+ \end{tabular}
+	\caption{Threshold values from RWJ University Hospital sepsis detection algorithm}
+  \label{tab:rwj_table}
+\end{table}
+
+\begin{table*}
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{| l | l | l | l | l | l |}
+\hline
+
+{\bf Score} & {\bf 0} & {\bf 1} & {\bf 2} & {\bf 3} & {\bf 4}\\ \hline
+Heart Rate (bpm) & 70-109 & & 59-69 or 110-139 & 40-54 or 140-179 & <=39 or >=180\\ \hline
+Temperature ($^\circ$C) & 36-38.4 & 34-35.9 or 38.5-38.9 & 32-33.9 & 30-31.9 or 39-40.9 & <=29.9 or >=41\\ \hline
+Respiratory Rate (bpm) & 12-24 & 10-11 or 25-34 & 6-9 & 35-49 & <=5 or >=50\\ \hline
+Systolic Blood Pressure (mm Hg) & 3-14.9 & 15-19.9 & 1-2.9 or 20-39.9 & & <1 or >=40\\ \hline
+
+ \end{tabular}
+	\caption{The Methodist Hospital sepsis scoring algorithm}
+  \label{tab:mh_table}
+\end{table*}
+
+While the accuracy of each scoring algorithm could not be accessed, a comparison was made to see how consistent each scoring scheme was.  The reference date was changed to each day during the month of October 2011, and the outputted patients were compared for each scoring system.  On average, the four algorithms did a poor job of agreeing on septic patients.  Each algorithm also varied in sensitivity.  The RWJ University algorithm was by far the most sensitive, and alerted the greatest number of patients each day.  The other three algorithms were more consistent in terms of the number of patients alerted.  This shows that scoring systems between hospitals do not agree consistently on septic patients and further research needs to be done to refine these alerts.  A summary of the number of patients alerted by each algorithm is shown in Figure~\ref{fig:num_patients} and a summary of the consistency between scoring algorithms is shown in Figure~\ref{fig:num_alerts}.
 
 \vspace{10pt}
 \section{Further Work}
@@ -231,7 +285,7 @@ While the accuracy of each scoring system could not be accessed, a comparison wa
 
 The most immediate future work would be to obtain classification labels for the patients of the Penn Presbyterian data set.  While an adjustable smart alarm framework is in place, the results and parameters cannot be evaluated without knowing which patients got septic.  Additionally, with patient labels, researchers would be able to individually alter thresholds to try to find which individual thresholds have the greatest impact on determining sepsis.  
 
-The smart alarm framework that was created serves two purposes moving forward.  First, it acts as a research platform where the researcher can continue to alter threshold values and evaluate how accurate the detection of sepsis is.  Additionally, researchers can apply scoring systems from other health systems to compare the relative effectiveness.  Second, as more effective scoring systems are developed, the framework can serve as the basis for a patient monitor alert system.  With streaming, real-time data, the home screen will constantly update as the scoring for each patient changes.  This will be useful for nurses and physicians to monitor their patients.  They can both get a broad overview of the state of their patients, as well as have the option to click on individual patients to view specific vital signs.
+The smart alarm framework that was created serves two purposes moving forward.  First, it acts as a research platform where the researcher can continue to alter threshold values and evaluate how accurate the detection of sepsis is.  Additionally, researchers can continue to apply scoring algorithms from other health systems to compare the relative effectiveness.  Second, as more effective scoring algorithms are developed, the framework can serve as the basis for a patient monitor alert system.  With streaming, real-time data, the home screen will constantly update as the scoring for each patient changes.  This will be useful for nurses and physicians to monitor their patients.  They can both get a broad overview of the state of their patients, as well as have the option to click on individual patients to view specific vital signs.
 
 \vspace{10pt}
 \section{Conclusion}
