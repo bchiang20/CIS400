@@ -130,7 +130,7 @@
                                 % Top of page:
 \topmargin 4.5pc                % Nominal distance from top of page to top of
                                 % box containing running head.
-\advance\topmargin by -.75in      % Correct for LaTeX gratuitousness
+\advance\topmargin by -.70in      % Correct for LaTeX gratuitousness
 \headheight 0pt                 % Height of box containing running head.
 \headsep 0pt                    % Space between running head and text.
                                 % Bottom of page:

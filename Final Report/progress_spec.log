@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  21 APR 2012 00:41
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  21 APR 2012 11:53
 entering extended mode
 **C:/xampp/htdocs/CIS400/Final*Report/progress_spec.tex
 ("C:/xampp/htdocs/CIS400/Final Report/progress_spec.tex"
@@ -260,6 +260,9 @@ Package pdftex.def Info: methodist2.png used on input line 80.
 
 [2 <C:/xampp/htdocs/CIS400/Final Report/methodist1.png> <C:/xampp/htdocs/CIS400
 /Final Report/methodist2.png>]
+Underfull \vbox (badness 1939) has occurred while \output is active []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 121--123
 
  []
@@ -300,9 +303,6 @@ File: patientGraph.png Graphic file (type png)
 <use patientGraph.png>
 Package pdftex.def Info: patientGraph.png used on input line 233.
 (pdftex.def)             Requested size: 504.0pt x 196.24419pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [5 <C:/xampp/htdocs/CIS400/Final Report/home.png> <C:/xampp/htdocs/CIS400/Fina
 l Report/FlowChart.png (PNG copy)>]
 Overfull \hbox (11.60962pt too wide) in paragraph at lines 324--334
@@ -364,7 +364,7 @@ lic/amsfonts/cm/cmti9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helve
 tic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr
 8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb>
-Output written on progress_spec.pdf (10 pages, 8013669 bytes).
+Output written on progress_spec.pdf (10 pages, 7969312 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
