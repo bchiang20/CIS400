@@ -1,4 +1,17 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{ssc}
+Marc Francis, T.~Rich, T.~Williamson, and D.~Peterson.
+\newblock Effect of an emergency department sepsis protocol on time to
+  antibiotics in severe sepsis.
+\newblock {\em Canadian Journal of Emergency Medicine}, 12:303--310, 2010.
+
+\bibitem{cdss}
+Dereck~L. Hunt, R.~Haynes, S.~Hanna, and K.~Smith.
+\newblock Effects of computer-based clinical decision support systems on
+  physician performance and patient outcomes.
+\newblock {\em Journal of the American Medical Association}, 280:1339--1346,
+  1998.
 
 \bibitem{smart_alarm}
 Andrew King, Alex Roederer, David Arney, Sanjian Chen, Margaret Fortino-Mullen,
@@ -26,6 +39,11 @@ Greg S.~Martin M.D., David M.~Mannino M.D., Stephanie~Eaton M.D., and Marc~Moss
   2000.
 \newblock {\em The New England Journal of Medicine}, 348:1546--1554, 2003.
 
+\bibitem{methodist}
+The Methodist Hospital System.
+\newblock {\em Early Detection and Goal Directed Therapy for Sepsis: Getting it
+  Done}, November 2011.
+
 \bibitem{bayes}
 Ernesto Ocampo, Mariana Maceiras, Silvia Herrera, Cecilia Maurente, Daniel
   Rodriguez, , and Miguel~A. Sicilia.
@@ -43,5 +61,11 @@ N.~Shapiro, R.~Wolfe, R.~Moore, E.~Smith, E.~Burdick, and D.~Bates.
 \newblock Mortality in emergency department sepsis (meds) score: a
   prospectively derived and validated clinical prediction rule.
 \newblock \texttt{http://www.ncbi.nlm.nih.gov/pubmed/12626967/}.
+
+\bibitem{yearbook}
+E.~Silva and D.~Araujo.
+\newblock Economic and social burden of severe sepsis.
+\newblock {\em Yearbook of Intensive Care and Emergency Medicine}, 9:129--138,
+  2009.
 
 \end{thebibliography}

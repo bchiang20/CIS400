@@ -22,7 +22,7 @@ Bryan Chiang \\ \email{brchiang@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Phil
 
 \begin{abstract}
 \vspace{10pt}
-\textit{Severe sepsis and septic shock are major healthcare concerns that impact patients in hospital settings. The onset of sepsis occurs rapidly, giving nurses and physicians little time to react and this results in high mortality rates. Sepsis is especially a concern in Intensive Care Units (ICUs), as these patients are in critical conditions and undergo operations where the risk of contracting sepsis is high. While there are guidelines for the management of sepsis, these only address how to handle patients after they have become septic. Our project will attempt to aid in the early detection of sepsis in hopes of giving nurses and physicians more time to treat patients. Given past sepsis patient data, we expect to build a predictive model that will be able to detect sepsis before the typical symptoms arise, decreasing the mortality rate from sepsis and septic shock.} 
+\textit{Severe sepsis and septic shock are major healthcare concerns that impact patients in hospital settings. The onset of sepsis occurs rapidly, giving nurses and physicians little time to react and resulting in high mortality rates. Sepsis is especially a concern in Intensive Care Units (ICUs), where patients are already in very critical conditions and undergo operations that increase the risk of sepsis contraction. In order to improve patient care and the performance of physicians and nurses, computerized guidelines for managing sepsis that take patient vital signs to compute his or her risk of sepsis have been implemented. However, for a single patient's vital sign data, these guidelines can provide very different risk scores. Our project attempts to aid in assessing the various guidelines by creating a consolidated alert interface / research tool to compare sepsis studies by applying them to the patient data acquired from Penn Presbyterian Medical Center in Philadelphia, PA. } 
 \end{abstract}
 
 \vspace{10pt}
@@ -30,13 +30,74 @@ Bryan Chiang \\ \email{brchiang@seas.upenn.edu} \\ Univ. of Pennsylvania \\ Phil
 \vspace{10pt}
 \label{sec:intro}
 
-Intro...
+Sepsis is a medical condition in which bacteria infect the bloodstream. It is caused by severe bodily infections and trauma, causing bacteria to quickly spread and enter the bloodstream. For example, deep lacerations into the stomach can introduce foreign bacteria into the cavity. With the bacteria that is already in the stomach, bleeding that occurs from these lacerations would provide openings into the bloodstream through which bacteria can enter. Sepsis is a prevalent reason for intensive care unit admittance and is also highly likely to develop in ICU's due to the severe trauma and surgical procedures that occur there. 
+
+Sepsis causes sudden sympathetic responses throughout the body. The preliminary symptoms of sepsis include fever, chills, decreased body temperature, dizziness, and vomiting. There are also fluctuations in the heart rate, respiratory rate, and of course blood measurements such as white blood cell count, blood saturation rate, lactate, and hemoglobin. All of these physiological responses lead to the widespread activation of the immunoproteins throughout the body. This inflammed immunological response interferes with the functioning of the bowel, kidneys, liver, lungs, and multiple other organs \cite{statins}. Sepsis left untreated can quickly lead to septic shock. Defined by a significantly high blood pressure (hypertension) or low blood pressure (hypotension), palpitations, rapid heart rate, pale extremities, and very low body temperature, septic shock causes a chain reaction of dysfunctions throughout the body and can quickly become fatal.
+
+With a high mortality rate and occurrence in United States intensive care units, researchers and hospitals have been developing and utilizing clinical management technologies in intensive care units to better manage and more effectively treat septic patients. One of the most prominent technologies used are clinical decision support systems (CDSS's), software that incorporates medical protocols, patient physiological data, and an evaluation engine to generate evidence-based advice to clinicians. Such a medical protocol includes thresholds for particular vital signs; for example, if a patient's heart rate exceeded a set threshold of 160 beats per minute, then the system would alert a doctor or nurse to provide immediate patient care. Clinical decision support systems can be used to recommend particular drug dosages, immunization reminders, or diagnose medical issues \cite{ssc}. 
+
+\vspace{10pt}
+\section{Motivation}
+\vspace{10pt}
+\label{sec:motivation}
+
+Sepsis accounts for 25 percent of admittances into United States hospital intensive-care units \cite{epi}. Affecting about 751,000 patients annually in the United States \cite{sepsis_def}, sepsis has a 20-35 percent mortality rate and septic shock a 40-60 percent mortality rate \cite{meds}. It kills about 200,000 people per year in the United States, more than stroke, Alzheimer's Disease, breast cancer, or prostate cancer. It is the second leading cause of death in non-coronary intensive care units and the tenth leading cause of death \cite{epi}. With an aging United States population, the mortality rate from sepsis is increasing at 1.5 percent every year with the diminishing immune systems of the elderly.
+
+The costs of sepsis care further presses the need for an accurate and consolidated implementation of a computerized sepsis protocol. \$17 billion is spent on sepsis annually in the United States. The average cost of sepsis care per patient in the United States is approximately \$25,000. This direct cost of patient care for sepsis is about six times more than the average cost of other intensive care unit patients. Without accurate and effective sepsis protocols, the costs only increase as patients begin to develop severe sepsis and septic shock, causing organ dysfunctions and failures that require more costly medical care \cite{yearbook}.
+
+Different institutions have varying thresholds for analyzing the sepsis risk of a patient, so the assessment of a single patient across different guidelines would vary significantly. There is no widespread systemic approach to predicting sepsis across institutions that allows for agreement on an individual patient's risk of sepsis. 
+
+Given the high mortality rate, high cost per sepsis patient, and uncertainty in diagnosing a patient, a consolidated research framework that allows for the comparison of sepsis algorithms was developed.  The framework gives researchers the ability to run data-driven analysis on the effectiveness of scoring algorithms in order to find a set of thresholds to accurately predict sepsis.
 
 \vspace{10pt}
 \section{Related Work}
 \vspace{10pt}
 \label{sec:related_work}
-Related work...
+
+This section looks at research done in sepsis protocols, as well as in clinical decision support systems and the application and implementation of smart alarms in modern hospitals.
+
+\vspace{10pt}
+\subsection{Sepsis Protocols}
+\label{subsec:protocols}
+\vspace{10pt}
+
+Arguably the most widely used sepsis protocol are the guidelines provided by the Surviving Sepsis Campaign. In 2002, the need for a standardized approach to sepsis care was recognized by the European Society of Intensive Care Medicine (ESICM), the International Sepsis Forum (ISF), and the Society of Critical Care Medicine (SCCM). In 2004, these three organizations formed and published the Surviving Sepsis Campaign (SSC) in an approach to create a consolidated set of guidelines for the European healthcare system. These three organizations, endorsed by eleven other professional societies, sought to apply these guidelines immediately in patient bedside management. The Surviving Sepsis Campaign Guidelines were implemented in health systems in thirty countries across Europe, South America, and the United States. The study measured the change in mortality rate and the achievement of ``bundle targets'' over a time period of two years. The study defined bundle targets as portions of the SSC guidelines grouped together in milestones so that hospitals would comply with these bundles in successive fashion \cite{ssc}. 
+
+The use of the guidelines resulted in significant improvements in the achievement of bundle targets over time. The average mortality rate in these hospitals decreased from 37 percent to 30.2 percent over a time period of two years. In the systems that had decreased mortality rates were significantly higher achievements of bundle targets than other hospitals that did not achieve these targets as well, showing the cause and effect of going by the SSC guidelines and the improvements in hospital care \cite{ssc}.
+
+At the Methodist Hospital System in Texas, the application of a sepsis protocol not only decreased the cases of death from sepsis but also improved the costs of sepsis care. The protocol was implemented, through a clinical decision support system, in the surgical intensive care unit in 2009, and the mortality rate using the protocol was 14 percent, compared to the Surviving Sepsis Campaign's mortality rate that year of 31 percent, and the previous year's mortality rate of 23 percent at the Methodist Hospital surgical intensive care unit (Figure~\ref{fig:mortality_rate}). From January 2008 to August 2011, there was a observed decline in the percent of sepsis cases that resulted in death, from 35.4 percent to 17.4 percent (Figure~\ref{fig:mortality_rate_time}). The costs of sepsis care from 2009 to 2011 was observed as decreasing from \$28,300 to \$28,124 per case at Methodist Hospital \cite{methodist}.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{methodist1.png}
+	\end{center}
+	\caption{Mortality rate comparison for different protocols}
+	\label{fig:mortality_rate}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{methodist2.png}
+	\end{center}
+	\caption{Change in sepsis mortality rate over time}
+	\label{fig:mortality_rate_time}
+\end{figure}
+
+
+\vspace{10pt}
+\subsection{Clinical Decision Support Systems}
+\label{subsec:cdss}
+\vspace{10pt}
+
+Clinical decision support systems can be used to diagnose patients, recommend particular drug dosages, immunization reminders, or diagnose medical issues \cite{cdss}. For this project, the focus is on clinical decision support systems that alarm when patients' conditions worsen. These alarms detect when a patient's real-time conditions exceed physiological thresholds values deemed concerns. However, having the alarm go off when only one vital sign deviates from normal does not mean that the patient has entered a critical situation. As a result, there are also instances where alarms sound off that falsely alert practitioners and result in time lost \cite{deaths}.
+
+The University of California San Francisco assessed the effects of clinical decision support systems on physician performance. Out of a total of 68 trials, five trials tested CDSS's in their role of diagnosis. Out of these five trials, only one trial was shown to find a benefit of using a clinical decision support system. The positives were significant increases in the referral of patients for physiotherapy and a reduced risk of postoperative complications \cite{cdss}. 
+
+The usage of alarms has not significantly improved the mortality rates and point to the alarm implementation as the weakness. First, the threshold values were set after being ``grandfathered'' through ``tradition'' as the article phrases it. In other words, the values chosen as thresholds have been based on observation through time and were not necessarily fully legitimized through quantitative proof \cite{deaths}. Second, the alarms do not go off for early signs of physiological distress, but rather when the distress is already in full effect. These smart alarms would be more reliable and effective if they were proven to detect distress before its onset \cite{deaths}.  
+
+To improve the logic in which the alarm sounds off for a patient, research is being conducted to create smarter alarms that combine the vital signs together with patient data to more accurately alarm nurses and doctors. For instance, recent development at the University of Pennsylvania has been made for a protocol to build Smart Alarms. The first implementation of the Smart Alarm produced 53 and 59 percent drops in positive alarms without an increase in false negatives. It also doubled the amount of quiet time on the floor, making practitioners more likely to pay attention to the alarm \cite{smart_alarm}.
+
+CDSS's also can assist in the treatment and diagnosis of diseases. This year, a team of researchers applied similar methods to diagnosing cases of acute bacterial meningitis. Using several different machine-learning models, the team managed to sift through 84 different symptoms and indicators to make the proper diagnosis with 90 percent accuracy \cite{bayes}. Existing research highlights the need for more accurate alarms that combine and analyze real-time vital signs to earlier detect a critical patient. 
 
 \vspace{10pt}
 \section{Data Collection}
@@ -143,7 +204,11 @@ Similar to the MICU data, classifications for whether the patient ultimately got
 \label{subsec:ethics}
 \vspace{10pt}
 
-Ethics...
+Patient privacy was definitely an ethical issue and an obstacle in the project, particularly when an inquiry into patient data access was made to the Medical and Surgical Intensive Care Units at the Hospital of the University of Pennsylvania (HUP), as well as Penn Presbyterian Hospital. The ethical issues faced largely revolved around the Health Information Portability and Accountability Act (HIPAA), which is enforced by the Office of Civil Rights of the U.S. Department of Health and Human Services to protect the privacy of individual and identifiable health information. 
+
+Requesting data access from HUP required the completion of an IRB protocol, which consisted of a complete HIPAA waiver request and authorization forms. IRB stands for Institutional Review Board, an ethics committee that monitors and reviews all research that involves patients at the HUP. The HIPAA forms asked at length what the data was going to be used for and why it was needed. Once the data was received, it was clear that great effort was made in its presentation and structure to ensure that patient confidentiality was upheld. For instance, every patient had an identification number and beyond these numbers, it was ensured that there was no other way to identify a patient. 
+
+A potential ethical situation would be the misdiagnosis of a patient with a sepsis detection algorithm.  Relying on a computerized sepsis alert inherently poses risks, as the detection rule may not be accurate for all patients. The misdiagnosis of a patient could result in a nurse or doctor administering sepsis treatment for a patient who did not have sepsis, adding to the cost spent on that patient and utilizing excess physician resources to treat the condition. Additionally, if treatment is administered to a patient who is not septic, this could lead to further complications in the patient's health.  
 
 \begin{figure*}
 	\begin{center}
