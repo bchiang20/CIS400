@@ -204,11 +204,7 @@ Similar to the MICU data, classifications for whether the patient ultimately got
 \label{subsec:ethics}
 \vspace{10pt}
 
-Patient privacy was definitely an ethical issue and an obstacle in the project, particularly when an inquiry into patient data access was made to the Medical and Surgical Intensive Care Units at the Hospital of the University of Pennsylvania (HUP), as well as Penn Presbyterian Hospital. The ethical issues faced largely revolved around the Health Information Portability and Accountability Act (HIPAA), which is enforced by the Office of Civil Rights of the U.S. Department of Health and Human Services to protect the privacy of individual and identifiable health information. 
-
-Requesting data access from HUP required the completion of an IRB protocol, which consisted of a complete HIPAA waiver request and authorization forms. IRB stands for Institutional Review Board, an ethics committee that monitors and reviews all research that involves patients at the HUP. The HIPAA forms asked at length what the data was going to be used for and why it was needed. Once the data was received, it was clear that great effort was made in its presentation and structure to ensure that patient confidentiality was upheld. For instance, every patient had an identification number and beyond these numbers, it was ensured that there was no other way to identify a patient. 
-
-A potential ethical situation would be the misdiagnosis of a patient with a sepsis detection algorithm.  Relying on a computerized sepsis alert inherently poses risks, as the detection rule may not be accurate for all patients. The misdiagnosis of a patient could result in a nurse or doctor administering sepsis treatment for a patient who did not have sepsis, adding to the cost spent on that patient and utilizing excess physician resources to treat the condition. Additionally, if treatment is administered to a patient who is not septic, this could lead to further complications in the patient's health.  
+Patient privacy was definitely an ethical issue and an obstacle in the project, particularly when an inquiry into patient data access was made to the Medical and Surgical Intensive Care Units at the Hospital of the University of Pennsylvania (HUP), as well as Penn Presbyterian Hospital. The ethical issues faced largely revolved around the Health Information Portability and Accountability Act (HIPAA), which is enforced by the Office of Civil Rights of the U.S. Department of Health and Human Services to protect the privacy of individual and identifiable health information.
 
 \begin{figure*}
 	\begin{center}
@@ -216,6 +212,18 @@ A potential ethical situation would be the misdiagnosis of a patient with a seps
 	\end{center}
 	\caption{Snapshot of home screen}
 	\label{fig:home}
+\end{figure*}
+
+Requesting data access from HUP required the completion of an IRB protocol, which consisted of a complete HIPAA waiver request and authorization forms. IRB stands for Institutional Review Board, an ethics committee that monitors and reviews all research that involves patients at the HUP. The HIPAA forms asked at length what the data was going to be used for and why it was needed. Once the data was received, it was clear that great effort was made in its presentation and structure to ensure that patient confidentiality was upheld. For instance, every patient had an identification number and beyond these numbers, it was ensured that there was no other way to identify a patient. 
+
+A potential ethical situation would be the misdiagnosis of a patient with a sepsis detection algorithm.  Relying on a computerized sepsis alert inherently poses risks, as the detection rule may not be accurate for all patients. The misdiagnosis of a patient could result in a nurse or doctor administering sepsis treatment for a patient who did not have sepsis, adding to the cost spent on that patient and utilizing excess physician resources to treat the condition. Additionally, if treatment is administered to a patient who is not septic, this could lead to further complications in the patient's health.  
+
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{patientGraph.png}
+	\end{center}
+	\caption{Snapshot of a patient's vital sign history graph}
+	\label{fig:patient_graph}
 \end{figure*}
 
 \vspace{10pt}
@@ -226,14 +234,6 @@ A potential ethical situation would be the misdiagnosis of a patient with a seps
 Since patient classifications were unknown, a smart alarm framework that could alert for suspect patients as well as serve as a research tool was built.  The main functionality is to provide a set of adjustable thresholds for each vital sign collected.  Depending on the values of the thresholds and the number of thresholds that needed to be triggered, the smart alarm displays a different set of patients.  This was motivated by interviews and surveys that were conducted with nurses and physicians in the University of Pennsylvania Health System.  There was a general consensus that the vital signs provided in the Presby data set were helpful in determining whether or not a patient gets septic, but the threshold values each nurse or physician assigned varied.  Even though there are guideline values set by the Surviving Sepsis Campaign, each nurse and physician may deviate from these values.  There was also a discrepancy in the number of thresholds the nurses and physicians would look at to raise attention to that patient.  Most respondents said that three was their threshold limit.  Our framework takes into account these differences and allows the user to changes these values.
 
 Due to the relatively small Presby data set, several assumptions were made when building the framework.  Ideally, such a smart alarm system would be used with streaming vital sign and lab data so that the information is collected in real time.  As the data is only from one month, a reference date was required to signify the current point in time.  The framework has an adjustable reference date that can be set to any time during the month of October 2011 to model how the smart alarm would look at that date.  Each patient has multiple values for each vital sign over the course of their stay at the hospital, but the date and time of each reading rarely matches up with other vital signs.  For example, respiratory rate, heart rate, systolic blood pressure, and temperature are often taken together on the same reading.  However, since white blood cell count and lactate require a blood sampling, these tests are taken less often and at different times than the other four vitals.  When trying to identify which patients trigger more than the specified level of thresholds, a time window had to be specified for those threshold trips to take place.  From the reference date, a time window of one day was used to pull the patients who met the threshold criteria.  
-
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=1.0\linewidth]{patientGraph.png}
-	\end{center}
-	\caption{Snapshot of a patient's vital sign history graph}
-	\label{fig:patient_graph}
-\end{figure}
 
 \vspace{10pt}
 \subsection{User Interface}
@@ -249,24 +249,7 @@ The user profile page contains basic information about the patient, such as thei
 \vspace{10pt}
 \label{sec:scoring}
 
-\begin{figure*}
-	\begin{center}
-		\includegraphics[width=1.0\linewidth]{NumPatientsComp.png}
-	\end{center}
-	\caption{Number of patients alerted by each scoring algorithm}
-	\label{fig:num_patients}
-\end{figure*}
-
-\begin{figure*}
-	\begin{center}
-		\includegraphics[width=1.0\linewidth]{ScoringComparision_Similarities.png}
-	\end{center}
-	\caption{Consistency of alert algorithms}
-	\label{fig:num_alerts}
-\end{figure*}
-
 Another feature of the smart alarm framework is the ability to test different sepsis scoring algorithms.  The main scoring algorithm employed was a basic count of the number of thresholds that were triggered at the current threshold levels.  If the number of thresholds exceeded the specified limit, the patient would be alerted on the screen.  The baseline values for the thresholds were taken from the Surviving Sepsis Campaign guidelines, and the threshold values are listed in Table~\ref{tab:threshold_table}.  
-Additionally, scoring algorithms from the University of Kentucky Medical Center, Robert Wood Johnson (RWJ) University Hospital, and the Methodist Hospital System were tested.  The University of Kentucky used a more gradual scoring criteria, assigning a score to a range of values for each vital sign.  This sliding scale took into account the severity of the vital sign and assigned a higher score for vital signs that were further from the normal range.  Their system would alert a patient if the score was greater than six.  The RWJ University Hospital algorithm was similar to the baseline algorithm from the Surviving Sepsis Campaign Guidelines, but used a two step triggering process.  First, vital signs were tested with defined threshold values.  If any one of these four signs were triggered, lab values were tested with defined threshold values.  If any two indicators were triggered (one vital plus one lab value, or two vitals), that patient would be alerted.  The Methodist Hospital scoring algorithm is similar to that of the University of Kentucky, using a sliding scale of ranges for each value and assigning a score to each range.  A patient was alerted if the score totalled four or greater.  The algorithm constraints for the University of Kentucky, RWJ University Hospital, and Methodist Hospital are shown in Table~\ref{tab:uk_table}, Table~\ref{tab:rwj_table}, and Table~\ref{tab:mh_table} respectively.  Each of these scoring algorithms was coded into the smart alarm framework and compared to the output of the other scoring algorithms.
 
 \begin{table}
 \renewcommand{\arraystretch}{1.5}
@@ -285,26 +268,6 @@ Respiratory Rate & > 20 bpm\\ \hline
 	\caption{Baseline threshold values from the Surviving Sepsis Campaign guidelines}
   \label{tab:threshold_table}
 \end{table}
-
-\begin{table*}
-\begin{center}
-\renewcommand{\arraystretch}{1.5}
-  \begin{tabular}{| l | l | l | l | l | l | l | l |}
-\hline
-
-{\bf Score} & {\bf 3} & {\bf 2} & {\bf 1} & {\bf 0} & {\bf 1} & {\bf 2} & {\bf 3}\\ \hline
-Heart Rate (bpm) & & < 40 & 41-50 & 51-100 & 101-110 & 110-129 & >= 130\\ \hline
-Temperature ($^\circ$C) & & < 35 & & 35-38.4 & & >= 38.5 &\\ \hline
-Systolic Blood Pressure (mm Hg) & < 70 & 71-80 & 81-100 & 101-199 & & >= 200 & \\ \hline
-Respiratory Rate (bpm) & & < 9 & & 9-14 & 15-20 & 21-29 & >= 30\\ \hline
-Age (years) & & & & & 65-74 & 75-84 & >= 85\\ \hline
-BMI (kg/$m^2$) & & & < 18.5 & & 25.1-34.9 & > 35 & \\ \hline
- \multicolumn{8}{|l|}{\bf Rule: a score of 6 or greater will set off the alert} \\ \hline
- \end{tabular}
-	\caption{University of Kentucky internal sepsis scoring algorithm thresholds}
-  \label{tab:uk_table}
-\end{center}
-\end{table*}
 
 \begin{table}
 \renewcommand{\arraystretch}{1.5}
@@ -327,6 +290,26 @@ Bands & > 10\% \\ \hline
 \end{table}
 
 \begin{table*}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+  \begin{tabular}{| l | l | l | l | l | l | l | l |}
+\hline
+
+{\bf Score} & {\bf 3} & {\bf 2} & {\bf 1} & {\bf 0} & {\bf 1} & {\bf 2} & {\bf 3}\\ \hline
+Heart Rate (bpm) & & < 40 & 41-50 & 51-100 & 101-110 & 110-129 & >= 130\\ \hline
+Temperature ($^\circ$C) & & < 35 & & 35-38.4 & & >= 38.5 &\\ \hline
+Systolic Blood Pressure (mm Hg) & < 70 & 71-80 & 81-100 & 101-199 & & >= 200 & \\ \hline
+Respiratory Rate (bpm) & & < 9 & & 9-14 & 15-20 & 21-29 & >= 30\\ \hline
+Age (years) & & & & & 65-74 & 75-84 & >= 85\\ \hline
+BMI (kg/$m^2$) & & & < 18.5 & & 25.1-34.9 & > 35 & \\ \hline
+ \multicolumn{8}{|l|}{\bf Rule: a score of 6 or greater will set off the alert} \\ \hline
+ \end{tabular}
+	\caption{University of Kentucky internal sepsis scoring algorithm thresholds}
+  \label{tab:uk_table}
+\end{center}
+\end{table*}
+
+\begin{table*}
 \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{| l | l | l | l | l | l |}
 \hline
@@ -341,6 +324,25 @@ Systolic Blood Pressure (mm Hg) & 3-14.9 & 15-19.9 & 1-2.9 or 20-39.9 & & <1 or 
 	\caption{The Methodist Hospital sepsis scoring algorithm}
   \label{tab:mh_table}
 \end{table*}
+
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{NumPatientsComp.png}
+	\end{center}
+	\caption{Number of patients alerted by each scoring algorithm}
+	\label{fig:num_patients}
+\end{figure*}
+
+\begin{figure*}
+	\begin{center}
+		\includegraphics[width=1.0\linewidth]{ScoringComparision_Similarities.png}
+	\end{center}
+	\caption{Consistency of alert algorithms}
+	\label{fig:num_alerts}
+\end{figure*}
+
+Additionally, scoring algorithms from the University of Kentucky Medical Center, Robert Wood Johnson (RWJ) University Hospital, and the Methodist Hospital System were tested.  The University of Kentucky used a more gradual scoring criteria, assigning a score to a range of values for each vital sign.  This sliding scale took into account the severity of the vital sign and assigned a higher score for vital signs that were further from the normal range.  Their system would alert a patient if the score was greater than six.  The RWJ University Hospital algorithm was similar to the baseline algorithm from the Surviving Sepsis Campaign Guidelines, but used a two step triggering process.  First, vital signs were tested with defined threshold values.  If any one of these four signs were triggered, lab values were tested with defined threshold values.  If any two indicators were triggered (one vital plus one lab value, or two vitals), that patient would be alerted.  The Methodist Hospital scoring algorithm is similar to that of the University of Kentucky, using a sliding scale of ranges for each value and assigning a score to each range.  A patient was alerted if the score totalled four or greater.  The algorithm constraints for the University of Kentucky, RWJ University Hospital, and Methodist Hospital are shown in Table~\ref{tab:uk_table}, Table~\ref{tab:rwj_table}, and Table~\ref{tab:mh_table} respectively.  Each of these scoring algorithms was coded into the smart alarm framework and compared to the output of the other scoring algorithms.
+
 
 While the accuracy of each scoring algorithm could not be accessed, a comparison was made to see how consistent each scoring scheme was.  The reference date was changed to each day during the month of October 2011, and the outputted patients were compared for each scoring algorithm.  Each algorithm varied in sensitivity.  The RWJ University algorithm was by far the most sensitive, alerting the greatest number of patients each day.  The other three algorithms were more consistent in terms of the number of patients alerted.  On average, the four algorithms did a poor job of agreeing on septic patients.  This shows that scoring algorithms between hospitals do not agree consistently on septic patients and further research needs to be done to refine these alerts.  A summary of the number of patients alerted by each algorithm is shown in Figure~\ref{fig:num_patients} and a summary of the consistency between scoring algorithms is shown in Figure~\ref{fig:num_alerts}.
 

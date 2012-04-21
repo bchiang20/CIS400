@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  20 APR 2012 23:51
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  21 APR 2012 00:07
 entering extended mode
 **C:/xampp/htdocs/CIS400/Final*Report/progress_spec.tex
 ("C:/xampp/htdocs/CIS400/Final Report/progress_spec.tex"
@@ -292,48 +292,50 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--174
 
  []
 
-[4 <C:/xampp/htdocs/CIS400/Final Report/INRGraph.png> <C:/xampp/htdocs/CIS400/F
-inal Report/BilirubinGraph.png>] <home.png, id=30, 1105.9719pt x 447.5922pt>
+<home.png, id=25, 1105.9719pt x 447.5922pt>
 File: home.png Graphic file (type png)
-
-<use home.png>
-Package pdftex.def Info: home.png used on input line 215.
+ <use home.png>
+Package pdftex.def Info: home.png used on input line 211.
 (pdftex.def)             Requested size: 504.0pt x 203.96893pt.
- <patientGraph.png, id=31, 1283.7561pt x 499.8675pt>
+ [4 <C:/xampp/htdocs/CIS400/Final Report/INRGraph.png> <C:/xampp/htdocs/CIS400/
+Final Report/BilirubinGraph.png>] <patientGraph.png, id=31, 1283.7561pt x 499.8
+675pt>
 File: patientGraph.png Graphic file (type png)
 
 <use patientGraph.png>
-Package pdftex.def Info: patientGraph.png used on input line 232.
-(pdftex.def)             Requested size: 240.0pt x 93.45033pt.
+Package pdftex.def Info: patientGraph.png used on input line 223.
+(pdftex.def)             Requested size: 504.0pt x 196.24419pt.
 
-Underfull \vbox (badness 2368) has occurred while \output is active []
+Underfull \vbox (badness 1199) has occurred while \output is active []
 
+ [5 <C:/xampp/htdocs/CIS400/Final Report/home.png>]
+Overfull \hbox (11.60962pt too wide) in paragraph at lines 314--324
+[][] 
+ []
 
-<NumPatientsComp.png, id=32, 905.784pt x 319.9152pt>
+<NumPatientsComp.png, id=35, 905.784pt x 319.9152pt>
 File: NumPatientsComp.png Graphic file (type png)
  <use NumPatientsComp.png>
-Package pdftex.def Info: NumPatientsComp.png used on input line 254.
+Package pdftex.def Info: NumPatientsComp.png used on input line 330.
 (pdftex.def)             Requested size: 504.0pt x 178.00414pt.
 
-<ScoringComparision_Similarities.png, id=33, 873.5034pt x 319.9152pt>
+<ScoringComparision_Similarities.png, id=36, 873.5034pt x 319.9152pt>
 File: ScoringComparision_Similarities.png Graphic file (type png)
 
 <use ScoringComparision_Similarities.png>
 Package pdftex.def Info: ScoringComparision_Similarities.png used on input line
- 262.
+ 338.
 (pdftex.def)             Requested size: 504.0pt x 184.5844pt.
- [5 <C:/xampp/htdocs/CIS400/Final Report/patientGraph.png>] [6 <C:/xampp/htdocs
-/CIS400/Final Report/home.png> <C:/xampp/htdocs/CIS400/Final Report/NumPatients
-Comp.png>]
-Overfull \hbox (11.60962pt too wide) in paragraph at lines 331--341
-[][] 
+
+Overfull \hbox (2.00372pt too wide) in paragraph at lines 344--345
+\T1/aer/m/n/9 Uni-ver-sity Hos-pi-tal, and the Methodist Hos-pi-tal Sys-tem wer
+e
  []
 
-[7 <C:/xampp/htdocs/CIS400/Final Report/ScoringComparision_Similarities.png>]
-("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl"
-Underfull \vbox (badness 1394) has occurred while \output is active []
-
- [8]
+[6 <C:/xampp/htdocs/CIS400/Final Report/patientGraph.png>] [7 <C:/xampp/htdocs/
+CIS400/Final Report/NumPatientsComp.png>]
+("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl" [8 <C:/xampp/htdocs/CI
+S400/Final Report/ScoringComparision_Similarities.png>]
 LaTeX Font Info:    Try loading font information for T1+aett on input line 57.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
@@ -348,7 +350,7 @@ Overfull \hbox (26.65685pt too wide) in paragraph at lines 55--58
 Here is how much of TeX's memory you used:
  2602 strings out of 494045
  31807 string characters out of 3145947
- 95128 words of memory out of 3000000
+ 94128 words of memory out of 3000000
  5839 multiletter control sequences out of 15000+200000
  47803 words of font info for 66 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
@@ -366,7 +368,7 @@ blic/amsfonts/cm/cmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/h
 elvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/
 uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb>
 
-Output written on progress_spec.pdf (9 pages, 6625318 bytes).
+Output written on progress_spec.pdf (9 pages, 6625411 bytes).
 PDF statistics:
  92 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
