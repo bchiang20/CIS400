@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  18 APR 2012 19:41
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.10.12)  20 APR 2012 20:36
 entering extended mode
 **C:/xampp/htdocs/CIS400/Final*Report/progress_spec.tex
 ("C:/xampp/htdocs/CIS400/Final Report/progress_spec.tex"
@@ -260,6 +260,11 @@ Package pdftex.def Info: BilirubinGraph.png used on input line 100.
 (pdftex.def)             Requested size: 240.0pt x 169.72765pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 111--113
+\T1/aer/m/n/9 signs col-lected are listed be-low.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--113
 
  []
 
@@ -293,12 +298,12 @@ Package pdftex.def Info: ScoringComparision_Similarities.png used on input line
  [3 <C:/xampp/htdocs/CIS400/Final Report/patientGraph.png>] [4 <C:/xampp/htdocs
 /CIS400/Final Report/home.png> <C:/xampp/htdocs/CIS400/Final Report/NumPatients
 Comp.png>]
-Overfull \hbox (11.60962pt too wide) in paragraph at lines 265--275
+Overfull \hbox (11.60962pt too wide) in paragraph at lines 266--276
 [][] 
  []
 
-("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl" [5 <C:/xampp/htdocs/CI
-S400/Final Report/ScoringComparision_Similarities.png>]
+[5 <C:/xampp/htdocs/CIS400/Final Report/ScoringComparision_Similarities.png>]
+("C:\xampp\htdocs\CIS400\Final Report\progress_spec.bbl" [6]
 LaTeX Font Info:    Try loading font information for T1+aett on input line 39.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
@@ -309,34 +314,29 @@ Overfull \hbox (22.03992pt too wide) in paragraph at lines 37--40
 9 .  
  []
 
-)
-Underfull \vbox (badness 7256) has occurred while \output is active []
-
- [6]
-[7
-
-] ("C:\xampp\htdocs\CIS400\Final Report\progress_spec.aux") ) 
+) [7] ("C:\xampp\htdocs\CIS400\Final Report\progress_spec.aux") ) 
 Here is how much of TeX's memory you used:
  2583 strings out of 494045
  31505 string characters out of 3145947
- 93070 words of memory out of 3000000
+ 94070 words of memory out of 3000000
  5822 multiletter control sequences out of 15000+200000
  47803 words of font info for 66 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 41i,8n,26p,1629b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files 
-(x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files (x86)/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmti9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helve
-tic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr
-8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb>
-Output written on progress_spec.pdf (7 pages, 6415188 bytes).
+ 41i,9n,26p,1631b,273s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files (x86)/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files (x86)/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmti9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmtt9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/h
+elvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/
+uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb>
+
+Output written on progress_spec.pdf (7 pages, 6417423 bytes).
 PDF statistics:
  82 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
